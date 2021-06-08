@@ -67,11 +67,11 @@ export default Dashboard
 
 export async function getServerSideProps(ctx: any) {
   const session = await getSession(ctx)
-  console.log(session)
+  // console.log(session)
   let user = session && session.user
-  console.log(user)
+  // console.log(user)
   let plainUserData = JSON.parse(JSON.stringify(user))
-  console.log(plainUserData)
+  // console.log(plainUserData)
   if (!session) {
     ctx.res.writeHead(302, { Location: '/' })
     ctx.res.end()

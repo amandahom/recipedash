@@ -21,6 +21,13 @@ function CreatePost() {
 
   async function handleSubmit(e: any) {
     e.preventDefault()
+    let uploadedSource =
+      e && e.currentTarget && e.currentTarget.source && e.currentTarget.source.value ? e.currentTarget.source.value : ''
+    let recipeTitle = e && e.currentTarget && e.currentTarget.title && e.currentTarget.title.value
+    let recipeRating = e && e.currentTarget && e.currentTarget.rating && e.currentTarget.rating.value
+    let recipeDescription = e && e.currentTarget && e.currentTarget.description && e.currentTarget.description.value
+    let recipeIngredients = e && e.currentTarget && e.currentTarget.ingredients && e.currentTarget.ingredients.value
+    let recipeInstructions = e && e.currentTarget && e.currentTarget.instructions && e.currentTarget.instructions.value
     try {
       const res = await fetch('/api/user/user', {
         method: 'GET',
@@ -28,21 +35,37 @@ function CreatePost() {
       })
       const data = await res.json()
       let userId = data._id
+      let file = await uploadDetails()
+
       console.log(userId)
-      uploadDetails(e, userId)
+      console.log(file)
+      console.log(uploadedSource)
+      console.log(recipeTitle)
+      console.log(userId)
+      console.log(recipeRating)
+      console.log(recipeDescription)
+      console.log(recipeIngredients)
+      console.log(recipeInstructions)
+      createPost(
+        recipeTitle,
+        userId,
+        recipeRating,
+        recipeDescription,
+        recipeIngredients,
+        recipeInstructions,
+        file,
+        uploadedSource,
+      )
     } catch (err) {
       console.log(err)
     }
   }
 
-  const uploadDetails = async (e: any, userId: string) => {
+  const uploadDetails = async () => {
     let uploadedPhoto: File | string =
       recipeRef && recipeRef.current && recipeRef.current.files && recipeRef.current.files[0]
         ? recipeRef.current.files[0]
         : 'https://res.cloudinary.com/cub95/image/upload/v1622952634/s-o-c-i-a-l-c-u-t-hwy3W3qFjgM-unsplash_1_ra1pkb.jpg'
-
-    let uploadedSource =
-      e && e.currentTarget && e.currentTarget.source && e.currentTarget.source.value ? e.currentTarget.source.value : ''
 
     try {
       if (
@@ -57,21 +80,19 @@ function CreatePost() {
           method: 'POST',
           body: data,
         }).then(items => items.json())
-
         console.log(items)
-
         let cloudinaryFile = items.secure_url
         console.log(cloudinaryFile)
         setPhoto(cloudinaryFile)
-        createPost(e, cloudinaryFile, uploadedSource, userId)
+        // createPost(cloudinaryFile, uploadedSource, userId)
+        return cloudinaryFile
       } else {
         let cloudinaryFile = uploadedPhoto
         console.log(cloudinaryFile)
-        createPost(e, cloudinaryFile, uploadedSource, userId)
+        return cloudinaryFile
       }
 
       // createPost(e, uploadedSource, uploadedPhoto)
-
       // var Recipe = mongoose.model('Recipe')
       // const body = new Recipe({
     } catch (err) {
@@ -80,22 +101,36 @@ function CreatePost() {
     }
   }
 
-  const createPost = async (e: any, cloudinaryFile: string, uploadedSource: string | null, userId: string) => {
+  const createPost = async (
+    recipeTitle: string,
+    userId: string,
+    recipeRating: string,
+    recipeDescription: string,
+    recipeIngredients: string,
+    recipeInstructions: string,
+    file: string,
+    uploadedSource: string | null,
+  ) => {
     try {
-      console.log(cloudinaryFile)
-      let uploadedFile = cloudinaryFile
-      console.log(uploadedFile)
+      console.log(userId)
+      console.log(file)
       console.log(uploadedSource)
+      console.log(recipeTitle)
+      console.log(userId)
+      console.log(recipeRating)
+      console.log(recipeDescription)
+      console.log(recipeIngredients)
+      console.log(recipeInstructions)
       const body = {
         _id: nanoid(12),
-        title: e.currentTarget.title.value,
+        title: recipeTitle,
         createdBy: userId,
         createdAt: new Date(),
-        rating: e.currentTarget.rating.value,
-        description: e.currentTarget.description.value,
-        ingredients: e.currentTarget.ingredients.value,
-        instructions: e.currentTarget.instructions.value,
-        photo: cloudinaryFile,
+        rating: recipeRating,
+        description: recipeDescription,
+        ingredients: recipeIngredients,
+        instructions: recipeInstructions,
+        photo: file,
         source: uploadedSource,
       }
       console.log(body)
