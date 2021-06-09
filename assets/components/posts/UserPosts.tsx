@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Loading from 'utils/Loading'
 
-// interface PostInterface {
-//   posts?: PostDataInterface
-// }
-
 interface PostDataInterface {
   map(arg0: (posts: PostInterface, index: number) => JSX.Element): React.ReactNode
   title: string
@@ -34,12 +30,12 @@ interface PostInterface {
   createdBy: string
 }
 
-function Posts() {
+function UserPosts() {
   const [indivPost, setIndivPost] = useState<PostDataInterface>()
   const [isLoaded, setIsLoaded] = useState(false)
 
   const requestPosts = async () => {
-    const res = await fetch('/api/posts/allPosts')
+    const res = await fetch('/api/user/userPosts')
     let items = await res.json()
     let posts: PostDataInterface = items.map((posts: PostDataInterface) => ({
       title: posts.title,
@@ -48,6 +44,7 @@ function Posts() {
       rating: posts.rating,
       description: posts.description,
       photo: posts.photo,
+      id: posts._id,
       source: posts.source,
       url: posts.url,
       createdAt: posts.createdAt,
@@ -61,18 +58,58 @@ function Posts() {
 
   useEffect(() => {
     async function getPosts() {
-      const res = await requestPosts()
-      setIndivPost(res.posts)
+      const postRes = await requestPosts()
+      setIndivPost(postRes.posts)
       setIsLoaded(true)
     }
     getPosts()
   }, [])
 
+  const deletePost = async (e: any) => {
+    try {
+      e.preventDefault()
+
+      const body = {
+        id: e.target.getAttribute('data-tag'),
+      }
+
+      const res = await fetch('/api/posts/deletePost', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const updatePost = async (e: any) => {
+    try {
+      e.preventDefault()
+
+      const body = {
+        id: e.target.getAttribute('data-tag'),
+      }
+
+      const res = await fetch('/api/posts/updatePost', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   function PostCards(indivPost: PostInterface, index: number) {
     return (
       <div key={index}>
         <div className="bg-white w-128 h-60 rounded shadow-md flex card text-grey-darkest">
-          <img className="w-1/2 h-full rounded-l-sm" src={indivPost.photo}></img>
+          <img className="w-3/12 h-full rounded-l-sm" src={indivPost.photo}></img>
           <div className="w-full flex flex-col">
             <div className="p-4 pb-0 flex-1">
               <h3 className="font-light mb-1 text-grey-darkest">{indivPost.title}</h3>
@@ -90,6 +127,42 @@ function Posts() {
               {indivPost.url}
             </div>
           </div>
+          <svg
+            className="w-16 h-16 cursor-pointer"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            onClick={e => {
+              updatePost(e)
+            }}
+            data-tag={indivPost.id}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            />
+          </svg>
+          <svg
+            className="w-16 h-16 cursor-pointer"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            onClick={e => {
+              deletePost(e)
+            }}
+            data-tag={indivPost.id}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
         </div>
       </div>
     )
@@ -103,8 +176,7 @@ function Posts() {
     )
   } else {
     return (
-      <div className="p-10 sm:p-20 2xl:p-40 mx-2 md:mx-4 lg:mx-10 pb-10">
-        <h1 className="text-2xl">Recipe Posts</h1>
+      <div className="px-10 sm:px-40 py-10 sm:py-20">
         {indivPost && (
           <div className="grid grid-cols-1 h-screen bg-blue-lightest">
             {indivPost.map((indivPost: PostInterface, index: number) => {
@@ -117,4 +189,4 @@ function Posts() {
   }
 }
 
-export default Posts
+export default UserPosts

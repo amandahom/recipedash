@@ -12,6 +12,7 @@ export default async function insertPost(req: VercelRequest, res: VercelResponse
         _id: req.body._id,
         title: req.body.title,
         createdBy: req.body.createdBy,
+        creatorEmail: req.body.creatorEmail,
         createdAt: req.body.createdAt,
         ingredients: req.body.ingredients,
         instructions: req.body.instructions,

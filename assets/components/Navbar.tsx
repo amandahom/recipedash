@@ -30,7 +30,7 @@ export const NavItems: NavInterface[] = [
 
 export const ProfileItems: ProfileInterface[] = [
   {
-    title: 'Your Profile',
+    title: 'Profile & Settings',
     url: '/profile',
     // className: 'nav-links',
   },
@@ -113,7 +113,7 @@ function Navbar() {
                                 <a
                                   key={item.title}
                                   href={item.url}
-                                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                  className="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
                                 >
                                   {item.title}
                                 </a>

@@ -4,7 +4,8 @@
 import Layout from 'assets/components/Layout'
 import { nanoid } from 'nanoid'
 // import { getSession } from 'next-auth/client'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import Loading from 'utils/Loading'
 
 // interface FileInterface {
 //   secure_url: string
@@ -17,38 +18,39 @@ function CreatePost() {
   const [success, setSuccess] = useState(false)
   const [failure, setFailure] = useState(false)
   const recipeRef = useRef<HTMLInputElement>(null)
+  const [isLoaded, setIsLoaded] = useState(true)
+
   // const [userEmail, setUserEmail] = useState<string | null | undefined>('')
 
   async function handleSubmit(e: any) {
     e.preventDefault()
-    let uploadedSource =
+    setIsLoaded(true)
+    let uploadedSource: string =
       e && e.currentTarget && e.currentTarget.source && e.currentTarget.source.value ? e.currentTarget.source.value : ''
-    let recipeTitle = e && e.currentTarget && e.currentTarget.title && e.currentTarget.title.value
-    let recipeRating = e && e.currentTarget && e.currentTarget.rating && e.currentTarget.rating.value
-    let recipeDescription = e && e.currentTarget && e.currentTarget.description && e.currentTarget.description.value
-    let recipeIngredients = e && e.currentTarget && e.currentTarget.ingredients && e.currentTarget.ingredients.value
-    let recipeInstructions = e && e.currentTarget && e.currentTarget.instructions && e.currentTarget.instructions.value
+    let recipeTitle: string = e && e.currentTarget && e.currentTarget.title && e.currentTarget.title.value
+    let recipeRating: string = e && e.currentTarget && e.currentTarget.rating && e.currentTarget.rating.value
+    let recipeDescription: string =
+      e && e.currentTarget && e.currentTarget.description && e.currentTarget.description.value
+    let recipeIngredients: string =
+      e && e.currentTarget && e.currentTarget.ingredients && e.currentTarget.ingredients.value
+    let recipeInstructions: string =
+      e && e.currentTarget && e.currentTarget.instructions && e.currentTarget.instructions.value
     try {
       const res = await fetch('/api/user/user', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       })
-      const data = await res.json()
-      let userId = data._id
-      let file = await uploadDetails()
 
-      console.log(userId)
-      console.log(file)
-      console.log(uploadedSource)
-      console.log(recipeTitle)
-      console.log(userId)
-      console.log(recipeRating)
-      console.log(recipeDescription)
-      console.log(recipeIngredients)
-      console.log(recipeInstructions)
+      const data = await res.json()
+      let userId: string = data._id
+      let userEmail: string = data.email
+      console.log(userEmail)
+      let file: string = (await uploadDetails()) || ''
+
       createPost(
         recipeTitle,
         userId,
+        userEmail,
         recipeRating,
         recipeDescription,
         recipeIngredients,
@@ -80,15 +82,11 @@ function CreatePost() {
           method: 'POST',
           body: data,
         }).then(items => items.json())
-        console.log(items)
-        let cloudinaryFile = items.secure_url
-        console.log(cloudinaryFile)
+        let cloudinaryFile: string = items.secure_url
         setPhoto(cloudinaryFile)
-        // createPost(cloudinaryFile, uploadedSource, userId)
         return cloudinaryFile
       } else {
         let cloudinaryFile = uploadedPhoto
-        console.log(cloudinaryFile)
         return cloudinaryFile
       }
 
@@ -104,27 +102,21 @@ function CreatePost() {
   const createPost = async (
     recipeTitle: string,
     userId: string,
+    userEmail: string,
     recipeRating: string,
     recipeDescription: string,
     recipeIngredients: string,
     recipeInstructions: string,
     file: string,
-    uploadedSource: string | null,
+    uploadedSource: string,
   ) => {
     try {
-      console.log(userId)
-      console.log(file)
-      console.log(uploadedSource)
-      console.log(recipeTitle)
-      console.log(userId)
-      console.log(recipeRating)
-      console.log(recipeDescription)
-      console.log(recipeIngredients)
-      console.log(recipeInstructions)
+      console.log(userEmail)
       const body = {
         _id: nanoid(12),
         title: recipeTitle,
         createdBy: userId,
+        creatorEmail: userEmail,
         createdAt: new Date(),
         rating: recipeRating,
         description: recipeDescription,
@@ -133,6 +125,7 @@ function CreatePost() {
         photo: file,
         source: uploadedSource,
       }
+
       console.log(body)
 
       const res = await fetch('/api/posts/writePost', {
@@ -143,11 +136,19 @@ function CreatePost() {
 
       console.log(res)
       setSuccess(true)
+      setIsLoaded(false)
     } catch (err) {
       setFailure(true)
       console.log(err)
     }
   }
+
+  useEffect(() => {
+    async function loadPosts() {
+      setIsLoaded(false)
+    }
+    loadPosts()
+  }, [])
 
   return (
     <Layout>
@@ -159,7 +160,7 @@ function CreatePost() {
             </div>
           </div>
         </div>
-        <div className="flex h-screen items-center justify-center my-20">
+        <div className="flex h-screen items-center justify-center mt-40 mb-60">
           <div className="grid bg-white rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
             <div className="flex justify-center py-4">
               <div className="flex bg-purple-200 rounded-full md:p-4 p-2 border-2 border-purple-300">
@@ -304,7 +305,7 @@ function CreatePost() {
                 <div className="flex items-center justify-center w-full">
                   <input type="file" name="photo" className="" ref={recipeRef} />
                 </div>
-                {photo && <img className="block h-40 w-40 my-6" src={photo} />}
+                {photo && <img className="max-w-screen-lg mx-auto flex h-40 w-40 my-4 p-2 bg-gray-300" src={photo} />}
                 {/* <div className="flex items-center justify-center w-full">
                   <label className="flex flex-col border-4 border-dashed border-gray-400 w-full h-32 hover:bg-gray-200 hover:border-purple-600 group cursor-pointer">
                     <div className="flex flex-col items-center justify-center pt-7">
@@ -330,10 +331,16 @@ function CreatePost() {
                   </label>
                 </div> */}
               </div>
-              {success && <div className="block text-md text-indigo-600 text-center pb-6">Recipe was posted!</div>}
+
+              {success && <div className="block text-md text-indigo-600 text-center pb-2">Recipe was posted!</div>}
               {failure && (
                 <div className="block text-md text-indigo-600 text-center">
                   Your recipe was not successfully posted. 😞&nbsp;&nbsp;Please try again.
+                </div>
+              )}
+              {isLoaded && (
+                <div className="max-w-screen-lg mx-auto flex h-40 w-40 pl-10 p-2">
+                  <Loading />
                 </div>
               )}
               <div className="flex items-center justify-center  md:gap-8 gap-4 pb-6">
