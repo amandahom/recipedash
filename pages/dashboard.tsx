@@ -1,5 +1,5 @@
 import Layout from 'assets/components/Layout'
-import Posts from 'assets/components/posts/PostCards'
+import Posts from 'assets/components/recipes/RecipeCards'
 import { getSession } from 'next-auth/client'
 
 function Dashboard({ plainUserData }: any) {
@@ -14,7 +14,7 @@ function Dashboard({ plainUserData }: any) {
           <div className="block -mr-2 flex-shrink-0">
             <a
               className="py-4 px-4 text-md md:text-lg transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-gray-800 hover:bg-gray-700 text-white font-normal rounded"
-              href="/create-post"
+              href="/create-recipe"
             >
               Add a new recipe
               <svg

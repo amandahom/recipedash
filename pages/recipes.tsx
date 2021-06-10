@@ -1,5 +1,5 @@
 import Layout from 'assets/components/Layout'
-import UserPosts from 'assets/components/posts/UserPosts'
+import UserPosts from 'assets/components/recipes/UserRecipes'
 
 function userRecipes() {
   return (

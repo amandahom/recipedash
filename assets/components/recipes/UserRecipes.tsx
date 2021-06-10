@@ -1,3 +1,5 @@
+import Modal from 'assets/components/Modal'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import Loading from 'utils/Loading'
 
@@ -33,9 +35,11 @@ interface PostInterface {
 function UserPosts() {
   const [indivPost, setIndivPost] = useState<PostDataInterface>()
   const [isLoaded, setIsLoaded] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [data, setData] = useState('')
 
   const requestPosts = async () => {
-    const res = await fetch('/api/user/userPosts')
+    const res = await fetch('/api/user/userRecipes')
     let items = await res.json()
     let posts: PostDataInterface = items.map((posts: PostDataInterface) => ({
       title: posts.title,
@@ -65,41 +69,12 @@ function UserPosts() {
     getPosts()
   }, [])
 
-  const deletePost = async (e: any) => {
+  const handleModal = async (e: any) => {
     try {
       e.preventDefault()
-
-      const body = {
-        id: e.target.getAttribute('data-tag'),
-      }
-
-      const res = await fetch('/api/posts/deletePost', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
-
-      console.log(res)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const updatePost = async (e: any) => {
-    try {
-      e.preventDefault()
-
-      const body = {
-        id: e.target.getAttribute('data-tag'),
-      }
-
-      const res = await fetch('/api/posts/updatePost', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
-
-      console.log(res)
+      let id = e.target.getAttribute('data-tag')
+      setData(id)
+      setShowModal(true)
     } catch (err) {
       console.log(err)
     }
@@ -127,32 +102,37 @@ function UserPosts() {
               {indivPost.url}
             </div>
           </div>
+          <Link href="/recipe/[id]" as={`/recipe/${indivPost.id}`}>
+            <svg
+              className="w-16 h-16 cursor-pointer"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              // onClick={e => {
+              //   updatePost(e)
+              // }}
+              data-tag={indivPost.id}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+              />
+            </svg>
+          </Link>
           <svg
             className="w-16 h-16 cursor-pointer"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
+            // onClick={e => {
+            //   deletePost(e)
+            // }}
             onClick={e => {
-              updatePost(e)
-            }}
-            data-tag={indivPost.id}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-            />
-          </svg>
-          <svg
-            className="w-16 h-16 cursor-pointer"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            onClick={e => {
-              deletePost(e)
+              handleModal(e)
             }}
             data-tag={indivPost.id}
           >
@@ -184,6 +164,7 @@ function UserPosts() {
             })}
           </div>
         )}
+        {showModal ? <Modal handleModal={data} /> : null}
       </div>
     )
   }

@@ -39,7 +39,7 @@ function Posts() {
   const [isLoaded, setIsLoaded] = useState(false)
 
   const requestPosts = async () => {
-    const res = await fetch('/api/posts/allPosts')
+    const res = await fetch('/api/posts/allRecipes')
     let items = await res.json()
     let posts: PostDataInterface = items.map((posts: PostDataInterface) => ({
       title: posts.title,

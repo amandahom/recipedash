@@ -59,6 +59,7 @@ function CreatePost() {
         uploadedSource,
       )
     } catch (err) {
+      setFailure(true)
       console.log(err)
     }
   }
@@ -128,7 +129,7 @@ function CreatePost() {
 
       console.log(body)
 
-      const res = await fetch('/api/posts/writePost', {
+      const res = await fetch('/api/posts/writeRecipe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
