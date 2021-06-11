@@ -102,7 +102,16 @@ function UserPosts() {
               {indivPost.url}
             </div>
           </div>
-          <Link href="/recipe/[id]" as={`/recipe/${indivPost.id}`}>
+          {/* <Link href="/recipe/[id]" as={`/recipe/${indivPost.id}`}> */}
+          <Link
+            href={{
+              pathname: '/recipe/[id]',
+              query: {
+                id: indivPost.id,
+              },
+            }}
+            as={`/recipe/${indivPost.id}`}
+          >
             <svg
               className="w-16 h-16 cursor-pointer"
               fill="none"
