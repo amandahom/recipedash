@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import Loading from 'utils/Loading'
 
@@ -52,6 +53,7 @@ function Posts() {
       url: posts.url,
       createdAt: posts.createdAt,
       createdBy: posts.createdBy,
+      id: posts._id,
     }))
 
     return {
@@ -70,28 +72,38 @@ function Posts() {
 
   function PostCards(indivPost: PostInterface, index: number) {
     return (
-      <div key={index}>
-        <div className="bg-white w-128 h-60 rounded shadow-md flex card text-grey-darkest">
-          <img className="w-1/2 h-full rounded-l-sm" src={indivPost.photo}></img>
-          <div className="w-full flex flex-col">
-            <div className="p-4 pb-0 flex-1">
-              <h3 className="font-light mb-1 text-grey-darkest">{indivPost.title}</h3>
-              <div className="flex items-center mt-4">
-                <div className="pr-2 text-xs">{indivPost.createdBy}</div>
-                <div className="px-2 text-xs">{indivPost.createdAt}</div>
+      <Link
+        href={{
+          pathname: '/recipe/[id]',
+          query: {
+            id: indivPost.id,
+          },
+        }}
+        as={`/recipe/${indivPost.id}`}
+      >
+        <div key={index} id={indivPost.id}>
+          <div className="bg-white w-128 h-60 rounded shadow-md flex card text-grey-darkest">
+            <img className="w-1/2 h-full rounded-l-sm" src={indivPost.photo}></img>
+            <div className="w-full flex flex-col">
+              <div className="p-4 pb-0 flex-1">
+                <h3 className="font-light mb-1 text-grey-darkest">{indivPost.title}</h3>
+                <div className="flex items-center mt-4">
+                  <div className="pr-2 text-xs">{indivPost.createdBy}</div>
+                  <div className="px-2 text-xs">{indivPost.createdAt}</div>
+                </div>
+                <div className="text-xs flex items-center mb-4">{indivPost.description}</div>
+                <div className="text-xs flex items-center mb-4">Rating: {indivPost.rating}</div>
               </div>
-              <div className="text-xs flex items-center mb-4">{indivPost.description}</div>
-              <div className="text-xs flex items-center mb-4">Rating: {indivPost.rating}</div>
-            </div>
-            <div className="bg-grey-lighter p-3 flex items-center justify-between transition hover:bg-grey-light">
-              {indivPost.source}
-            </div>
-            <div className="bg-grey-lighter p-3 flex items-center justify-between transition hover:bg-grey-light">
-              {indivPost.url}
+              <div className="bg-grey-lighter p-3 flex items-center justify-between transition hover:bg-grey-light">
+                {indivPost.source}
+              </div>
+              <div className="bg-grey-lighter p-3 flex items-center justify-between transition hover:bg-grey-light">
+                {indivPost.url}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     )
   }
 
