@@ -2,7 +2,6 @@
 // var Recipe = require('models/Recipes')
 // import mongoose from 'mongoose'
 import Layout from 'assets/components/Layout'
-import { nanoid } from 'nanoid'
 // import { getSession } from 'next-auth/client'
 import { GetServerSideProps } from 'next'
 import React, { useEffect, useRef, useState } from 'react'
@@ -35,35 +34,10 @@ function UpdatePost(props: any) {
   const recipeRef = useRef<HTMLInputElement>(null)
   const [isLoaded, setIsLoaded] = useState(true)
 
-  // const [userEmail, setUserEmail] = useState<string | null | undefined>('')
-
-  //   const updatePost = async (id: string) => {
-  //     try {
-  //       // e.preventDefault()
-
-  //       // const body = {
-  //       //   id: e.target.getAttribute('data-tag'),
-  //       // }
-
-  //       const body = {
-  //         id: id,
-  //       }
-
-  //       const res = await fetch('/api/posts/updateRecipe', {
-  //         method: 'PATCH',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify(body),
-  //       })
-
-  //       console.log(res)
-  //     } catch (err) {
-  //       console.log(err)
-  //     }
-  //   }
-
   async function handleSubmit(e: any) {
     e.preventDefault()
     setIsLoaded(true)
+    let recipeId = props.id
     let uploadedSource: string =
       e && e.currentTarget && e.currentTarget.source && e.currentTarget.source.value ? e.currentTarget.source.value : ''
     let recipeTitle: string = e && e.currentTarget && e.currentTarget.title && e.currentTarget.title.value
@@ -87,6 +61,7 @@ function UpdatePost(props: any) {
       let file: string = (await uploadDetails()) || ''
 
       createPost(
+        recipeId,
         recipeTitle,
         userId,
         userEmail,
@@ -104,31 +79,28 @@ function UpdatePost(props: any) {
   }
 
   const uploadDetails = async () => {
-    let uploadedPhoto: File | string =
-      recipeRef && recipeRef.current && recipeRef.current.files && recipeRef.current.files[0]
-        ? recipeRef.current.files[0]
-        : 'https://res.cloudinary.com/cub95/image/upload/v1622952634/s-o-c-i-a-l-c-u-t-hwy3W3qFjgM-unsplash_1_ra1pkb.jpg'
+    let uploadedPhoto: any = recipeRef && recipeRef.current && recipeRef.current.files && recipeRef.current.files[0]
 
     try {
-      if (
-        uploadedPhoto !==
-        'https://res.cloudinary.com/cub95/image/upload/v1622952634/s-o-c-i-a-l-c-u-t-hwy3W3qFjgM-unsplash_1_ra1pkb.jpg'
-      ) {
-        const data = new FormData()
-        data.append('file', uploadedPhoto)
-        data.append('upload_preset', 'recipedash')
-        data.append('cloud_name', 'cub95')
-        let items = await fetch('https://api.cloudinary.com/v1_1/cub95/upload', {
-          method: 'POST',
-          body: data,
-        }).then(items => items.json())
-        let cloudinaryFile: string = items.secure_url
-        setPhoto(cloudinaryFile)
-        return cloudinaryFile
-      } else {
-        let cloudinaryFile = uploadedPhoto
-        return cloudinaryFile
-      }
+      // if (
+      //   uploadedPhoto !==
+      //   'https://res.cloudinary.com/cub95/image/upload/v1622952634/s-o-c-i-a-l-c-u-t-hwy3W3qFjgM-unsplash_1_ra1pkb.jpg'
+      // ) {
+      const data = new FormData()
+      data.append('file', uploadedPhoto)
+      data.append('upload_preset', 'recipedash')
+      data.append('cloud_name', 'cub95')
+      let items = await fetch('https://api.cloudinary.com/v1_1/cub95/upload', {
+        method: 'POST',
+        body: data,
+      }).then(items => items.json())
+      let cloudinaryFile: string = items.secure_url
+      setPhoto(cloudinaryFile)
+      return cloudinaryFile
+      // } else {
+      //   let cloudinaryFile = uploadedPhoto
+      //   return cloudinaryFile
+      // }
 
       // createPost(e, uploadedSource, uploadedPhoto)
       // var Recipe = mongoose.model('Recipe')
@@ -140,6 +112,7 @@ function UpdatePost(props: any) {
   }
 
   const createPost = async (
+    recipeId: string,
     recipeTitle: string,
     userId: string,
     userEmail: string,
@@ -152,8 +125,9 @@ function UpdatePost(props: any) {
   ) => {
     try {
       console.log(userEmail)
+      console.log(recipeId)
       const body = {
-        _id: nanoid(12),
+        _id: recipeId,
         title: recipeTitle,
         createdBy: userId,
         creatorEmail: userEmail,
@@ -168,8 +142,8 @@ function UpdatePost(props: any) {
 
       console.log(body)
 
-      const res = await fetch('/api/posts/writeRecipe', {
-        method: 'POST',
+      const res = await fetch('/api/posts/updateRecipe', {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
@@ -216,7 +190,7 @@ function UpdatePost(props: any) {
                 <h1 className="text-gray-600 font-bold md:text-2xl text-xl">Update your recipe</h1>
               </div>
             </div>
-            <form className="contact-form mt-8 space-y-6" onSubmit={handleSubmit}>
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
                 <div className="grid grid-cols-1">
                   <label
@@ -232,7 +206,7 @@ function UpdatePost(props: any) {
                     autoComplete="title"
                     required
                     className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                    value={props.title}
+                    defaultValue={props.title}
                   />
                 </div>
                 <div className="grid grid-cols-1">
@@ -251,7 +225,7 @@ function UpdatePost(props: any) {
                     min="0"
                     max="10"
                     className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                    value={props.rating}
+                    defaultValue={props.rating}
                   />
                 </div>
               </div>
@@ -269,7 +243,7 @@ function UpdatePost(props: any) {
                   autoComplete="description"
                   required
                   className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  value={props.description}
+                  defaultValue={props.description}
                 />
               </div>
 
@@ -287,7 +261,7 @@ function UpdatePost(props: any) {
                   placeholder="Ingredients"
                   rows={6}
                   className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  value={props.ingredients}
+                  defaultValue={props.ingredients}
                 />
               </div>
 
@@ -305,7 +279,7 @@ function UpdatePost(props: any) {
                   required
                   className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="Instructions"
-                  value={props.instructions}
+                  defaultValue={props.instructions}
                 />
               </div>
 
@@ -322,39 +296,52 @@ function UpdatePost(props: any) {
                   type="source"
                   autoComplete="source"
                   className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  value={props.source}
+                  defaultValue={props.source}
                 />
               </div>
 
               <div className="grid grid-cols-1 mt-5 mx-7">
-                <label
-                  className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
-                  htmlFor="source"
-                >
-                  Credit the Chef <label className="text-blue-500 block">Optional*</label>
+                <label className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
+                  Upload Cover Photo<label className="text-blue-500 block">Optional*</label>
                 </label>
-                <div className="mt-1 flex items-center">
-                  <span className="inline-block h-40 w-40 overflow-hidden bg-gray-100">
-                    {props && props.photo && (
-                      <img className="max-w-screen-lg mx-auto flex h-40 w-40 my-4 p-2 bg-gray-300" src={props.photo} />
-                    )}
-                    <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                  </span>
-                  <button
-                    type="button"
-                    className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Change
-                  </button>
+                <div className="mt-1">
+                  <style jsx>{`
+                    input[type='file'] {
+                      color: transparent;
+                    }
+                  `}</style>
+                  <input type="file" name="photo" className="" ref={recipeRef} />
                 </div>
+                {photo ? (
+                  <div>
+                    <label className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
+                      <h1 className="mt-5">Uploaded Image:</h1>
+                    </label>
+                    {photo && (
+                      <img className="max-w-screen-lg mx-auto flex h-40 w-40 my-4 p-2 bg-gray-300" src={photo} />
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    {props && props.photo && (
+                      <div>
+                        <label className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
+                          <h1 className="mt-5">Current Image:</h1>
+                        </label>
+                        <img
+                          className="max-w-screen-lg mx-auto flex h-40 w-40 my-4 p-2 bg-gray-300"
+                          src={props.photo}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
-              {success && <div className="block text-md text-indigo-600 text-center pb-2">Recipe was posted!</div>}
+              {success && <div className="block text-md text-indigo-600 text-center pb-2">Recipe was updated!</div>}
               {failure && (
                 <div className="block text-md text-indigo-600 text-center">
-                  Your recipe was not successfully posted. 😞&nbsp;&nbsp;Please try again.
+                  Your recipe was not successfully updated. 😞&nbsp;&nbsp;Please try again.
                 </div>
               )}
               {isLoaded && (

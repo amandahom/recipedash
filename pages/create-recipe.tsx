@@ -177,7 +177,7 @@ function CreatePost() {
                 <h1 className="text-gray-600 font-bold md:text-2xl text-xl">Post a new recipe!</h1>
               </div>
             </div>
-            <form className="contact-form mt-8 space-y-6" onSubmit={handleSubmit}>
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
                 <div className="grid grid-cols-1">
                   <label
@@ -291,46 +291,10 @@ function CreatePost() {
                 <label className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
                   Upload Cover Photo<label className="text-blue-500 block">Optional*</label>
                 </label>
-                {/* <div>
-                  <input
-                    type="file"
-                    onChange={e => setImage(e && e.target && e.target.files && e.target.files[0])}
-                  ></input>
-                  <button onClick={uploadImage}>Upload</button>
-                </div>
-                <div>
-                  <h1>Uploaded image will be displayed here</h1>
-                  <img src={url} />
-                </div> */}
-
-                <div className="flex items-center justify-center w-full">
+                <div className="mt-1">
                   <input type="file" name="photo" className="" ref={recipeRef} />
                 </div>
                 {photo && <img className="max-w-screen-lg mx-auto flex h-40 w-40 my-4 p-2 bg-gray-300" src={photo} />}
-                {/* <div className="flex items-center justify-center w-full">
-                  <label className="flex flex-col border-4 border-dashed border-gray-400 w-full h-32 hover:bg-gray-200 hover:border-purple-600 group cursor-pointer">
-                    <div className="flex flex-col items-center justify-center pt-7">
-                      <svg
-                        className="w-10 h-10 text-purple-400 group-hover:text-purple-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        ></path>
-                      </svg>
-                      <p className="text-sm text-gray-500 group-hover:text-purple-600 pt-1 tracking-wider">
-                        Click to select a photo
-                      </p>
-                    </div>
-                    <input type="file" className="hidden" name="photo" ref={profilePictureRef} />
-                  </label>
-                </div> */}
               </div>
 
               {success && <div className="block text-md text-indigo-600 text-center pb-2">Recipe was posted!</div>}

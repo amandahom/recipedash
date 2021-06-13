@@ -1,25 +1,24 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { connectToDatabase } from 'middleware/mongodb'
+import { ObjectId } from 'mongodb'
 import { getSession } from 'next-auth/client'
 
-export default async function updatePost(req: VercelRequest, res: VercelResponse) {
+export default async function updateUser(req: VercelRequest, res: VercelResponse) {
   const session = await getSession({ req })
   if (session) {
     try {
       const { db } = await connectToDatabase()
-      await db.collection('posts').updateOne(
-        { _id: req.body._id },
+      var id = req.body._id
+      var o_id = new ObjectId(id)
+      await db.collection('users').updateOne(
+        { _id: o_id },
         {
           $set: {
-            title: req.body.title,
-            createdBy: req.body.createdBy,
-            createdAt: req.body.createdAt,
-            ingredients: req.body.ingredients,
-            instructions: req.body.instructions,
-            rating: req.body.rating,
-            description: req.body.description,
+            email: req.body.email,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            updatedAt: req.body.updatedAt,
             photo: req.body.photo,
-            source: req.body.source,
           },
         },
       )

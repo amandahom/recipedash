@@ -1,4 +1,4 @@
-import { getCsrfToken, getSession, providers, signIn } from 'next-auth/client'
+import { getSession, providers, signIn } from 'next-auth/client'
 import React from 'react'
 
 function SignIn({ providers, csrfToken }) {
@@ -62,7 +62,8 @@ function SignIn({ providers, csrfToken }) {
 SignIn.getInitialProps = async context => {
   const { req, res } = context
   const session = await getSession({ req })
-  const csrfToken = await getCsrfToken(context)
+  console.log(session)
+  // const csrfToken = await getCsrfToken(context)
   if (session && res && session.accessToken) {
     res.writeHead(302, {
       Location: '/',
@@ -74,7 +75,7 @@ SignIn.getInitialProps = async context => {
   return {
     session: undefined,
     providers: await providers(context),
-    props: { csrfToken },
+    // props: { csrfToken },
   }
 }
 

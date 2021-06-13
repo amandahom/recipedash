@@ -19,12 +19,14 @@ export const NavItems: NavInterface[] = [
   {
     title: 'Dashboard',
     url: '/dashboard',
-    // className: 'nav-links',
   },
   {
     title: 'My Recipes',
     url: '/recipes',
-    // className: 'nav-links',
+  },
+  {
+    title: 'Post a new Recipe',
+    url: '/create-recipe',
   },
 ]
 
@@ -32,12 +34,10 @@ export const ProfileItems: ProfileInterface[] = [
   {
     title: 'Profile & Settings',
     url: '/profile',
-    // className: 'nav-links',
   },
 ]
 
 function Navbar() {
-  // const profile = ['Your Profile', 'Settings', 'Sign out']
   const [session] = useSession()
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
