@@ -161,7 +161,7 @@ function CreatePost() {
             </div>
           </div>
         </div>
-        <div className="flex h-screen items-center justify-center mt-40 mb-60">
+        <div className="flex h-screen items-center justify-center mt-36 md:mt-10 mb-40 md:mb-40">
           <div className="grid bg-white rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
             <div className="flex justify-center py-4">
               <div className="flex bg-purple-200 rounded-full md:p-4 p-2 border-2 border-purple-300">
@@ -174,7 +174,7 @@ function CreatePost() {
 
             <div className="flex justify-center">
               <div className="flex">
-                <h1 className="text-gray-600 font-bold md:text-2xl text-xl">Post a new recipe!</h1>
+                <h1 className="text-gray-600 font-bold md:text-2xl text-xl">Post a new recipe</h1>
               </div>
             </div>
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -239,12 +239,11 @@ function CreatePost() {
                   className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
                   htmlFor="ingredients"
                 >
-                  Ingredients<label className="text-red-500 block">Required*</label>
+                  Ingredients<label className="text-blue-500 block">Optional*</label>
                 </label>
                 <textarea
                   id="ingredients"
                   name="ingredients"
-                  required
                   placeholder="Ingredients"
                   rows={6}
                   className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
@@ -257,13 +256,12 @@ function CreatePost() {
                   className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
                   htmlFor="instructions"
                 >
-                  Instructions<label className="text-red-500 block">Required*</label>
+                  Instructions<label className="text-blue-500 block">Optional*</label>
                 </label>
                 <textarea
                   id="instructions"
                   name="instructions"
                   rows={6}
-                  required
                   className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="Instructions"
                   defaultValue={''}

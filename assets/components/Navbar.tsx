@@ -218,7 +218,7 @@ function Navbar() {
                           <a
                             key={item.title}
                             href={item.url}
-                            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                            className="text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium"
                           >
                             {item.title}
                           </a>
@@ -231,13 +231,13 @@ function Navbar() {
                           <a
                             key={item.title}
                             href={item.url}
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                            className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
                           >
                             {item.title}
                           </a>
                         ))}
                         <a
-                          className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                          className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
                           onClick={() => signOut()}
                         >
                           Sign out

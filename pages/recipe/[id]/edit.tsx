@@ -174,13 +174,13 @@ function UpdatePost(props: any) {
             </div>
           </div>
         </div>
-        <div className="flex h-screen items-center justify-center mt-40 mb-60">
+        <div className="flex h-screen items-center justify-center mt-64 md:mt-40 mb-40 md:mb-40">
           <div className="grid bg-white rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
             <div className="flex justify-center py-4">
-              <div className="flex bg-purple-200 rounded-full md:p-4 p-2 border-2 border-purple-300">
+              <div className="flex bg-green-200 rounded-full md:p-4 p-2 border-2 border-green-300">
                 <img
                   className="w-10 h-10"
-                  src="https://cdn4.iconfinder.com/data/icons/food-and-drink-79/108/Noodles-256.png"
+                  src="https://cdn0.iconfinder.com/data/icons/fastfood-29/64/hamburger-burger-drink-soft-fastfood-fast-food-256.png"
                 ></img>
               </div>
             </div>
@@ -205,7 +205,7 @@ function UpdatePost(props: any) {
                     type="title"
                     autoComplete="title"
                     required
-                    className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                     defaultValue={props.title}
                   />
                 </div>
@@ -224,7 +224,7 @@ function UpdatePost(props: any) {
                     required
                     min="0"
                     max="10"
-                    className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                     defaultValue={props.rating}
                   />
                 </div>
@@ -242,7 +242,7 @@ function UpdatePost(props: any) {
                   type="description"
                   autoComplete="description"
                   required
-                  className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   defaultValue={props.description}
                 />
               </div>
@@ -252,15 +252,14 @@ function UpdatePost(props: any) {
                   className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
                   htmlFor="ingredients"
                 >
-                  Ingredients<label className="text-red-500 block">Required*</label>
+                  Ingredients<label className="text-blue-500 block">Optional*</label>
                 </label>
                 <textarea
                   id="ingredients"
                   name="ingredients"
-                  required
                   placeholder="Ingredients"
                   rows={6}
-                  className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   defaultValue={props.ingredients}
                 />
               </div>
@@ -270,14 +269,13 @@ function UpdatePost(props: any) {
                   className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
                   htmlFor="instructions"
                 >
-                  Instructions<label className="text-red-500 block">Required*</label>
+                  Instructions<label className="text-blue-500 block">Optional*</label>
                 </label>
                 <textarea
                   id="instructions"
                   name="instructions"
                   rows={6}
-                  required
-                  className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   placeholder="Instructions"
                   defaultValue={props.instructions}
                 />
@@ -295,7 +293,7 @@ function UpdatePost(props: any) {
                   name="source"
                   type="source"
                   autoComplete="source"
-                  className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   defaultValue={props.source}
                 />
               </div>
@@ -351,7 +349,7 @@ function UpdatePost(props: any) {
               )}
               <div className="flex items-center justify-center  md:gap-8 gap-4 pb-6">
                 <a href="/dashboard">
-                  <button className="w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2">
+                  <button className="w-auto bg-green-500 hover:bg-green-700 rounded-lg shadow-xl font-medium text-white px-4 py-2">
                     Update
                   </button>
                 </a>
