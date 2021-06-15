@@ -132,7 +132,7 @@ function Profile() {
 
   if (!isLoaded) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="bg-gray-100 flex justify-center items-center h-screen">
         <Loading />
       </div>
     )
@@ -292,7 +292,7 @@ function Profile() {
                     </div>
                   </div>
                 </div>
-                <div className="py-5"></div>
+                <div className="py-10"></div>
               </div>
             </div>
           </div>

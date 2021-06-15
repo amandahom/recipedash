@@ -223,7 +223,7 @@ function Posts() {
 
   if (!isLoaded) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="bg-gray-100 flex justify-center items-center h-screen">
         <Loading />
       </div>
     )

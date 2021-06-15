@@ -1,4 +1,3 @@
-import Modal from 'assets/components/Modal'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import Loading from 'utils/Loading'
@@ -41,8 +40,8 @@ interface userInterface {
 function UserPosts() {
   const [indivPost, setIndivPost] = useState<PostDataInterface>()
   const [isLoaded, setIsLoaded] = useState(false)
-  const [showModal, setShowModal] = useState(false)
-  const [data, setData] = useState('')
+  // const [showModal, setShowModal] = useState(false)
+  // const [data, setData] = useState('')
   const [user, setUser] = useState<userInterface>()
 
   const requestPosts = async () => {
@@ -89,6 +88,29 @@ function UserPosts() {
     }
   }
 
+  const deletePost = async (e: any) => {
+    try {
+      e.preventDefault()
+      console.log(e)
+
+      const body = {
+        id: e.target.parentElement.id,
+      }
+
+      console.log(body)
+
+      const res = await fetch('/api/posts/deleteRecipe', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     async function getPosts() {
       const postRes = await requestPosts()
@@ -99,16 +121,16 @@ function UserPosts() {
     getPosts()
   }, [])
 
-  const handleModal = async (e: any) => {
-    try {
-      e.preventDefault()
-      let id = e.target.getAttribute('data-tag')
-      setData(id)
-      setShowModal(true)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  // const handleModal = async (e: any) => {
+  //   try {
+  //     e.preventDefault()
+  //     let id = e.target.getAttribute('data-tag')
+  //     setData(id)
+  //     setShowModal(true)
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
   function PostCards(indivPost: PostInterface, index: number) {
     return (
@@ -222,11 +244,11 @@ function UserPosts() {
                       <div className="px-4 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button
                           type="button"
+                          onClick={e => {
+                            deletePost(e)
+                          }}
+                          id={indivPost.id}
                           className="w-32 md:w-full h-10 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                          // onClick={e => {
-                          //   setOpen(true)
-                          //   deletePost(e)
-                          // }}
                         >
                           <span className="mr-2">Delete</span>
                           <svg
@@ -235,13 +257,6 @@ function UserPosts() {
                             stroke="currentColor"
                             viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg"
-                            // onClick={e => {
-                            //   deletePost(e)
-                            // }}
-                            onClick={e => {
-                              handleModal(e)
-                            }}
-                            data-tag={indivPost.id}
                           >
                             <path
                               strokeLinecap="round"
@@ -262,6 +277,7 @@ function UserPosts() {
                         >
                           <button
                             type="button"
+                            data-tag={indivPost.id}
                             className="ml-5 h-10 w-28 sm:w-32 md:w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             // onClick={() => setOpen(false)}
                           >
@@ -272,7 +288,6 @@ function UserPosts() {
                               stroke="currentColor"
                               viewBox="0 0 24 24"
                               xmlns="http://www.w3.org/2000/svg"
-                              data-tag={indivPost.id}
                             >
                               <path
                                 strokeLinecap="round"
@@ -312,7 +327,7 @@ function UserPosts() {
               })}
             </div>
           )}
-          {showModal ? <Modal handleModal={data} /> : null}
+          {/* {showModal ? <Modal handleModal={data} /> : null} */}
         </div>
       </div>
     )

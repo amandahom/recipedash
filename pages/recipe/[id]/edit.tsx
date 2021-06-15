@@ -82,25 +82,22 @@ function UpdatePost(props: any) {
     let uploadedPhoto: any = recipeRef && recipeRef.current && recipeRef.current.files && recipeRef.current.files[0]
 
     try {
-      // if (
-      //   uploadedPhoto !==
-      //   'https://res.cloudinary.com/cub95/image/upload/v1622952634/s-o-c-i-a-l-c-u-t-hwy3W3qFjgM-unsplash_1_ra1pkb.jpg'
-      // ) {
-      const data = new FormData()
-      data.append('file', uploadedPhoto)
-      data.append('upload_preset', 'recipedash')
-      data.append('cloud_name', 'cub95')
-      let items = await fetch('https://api.cloudinary.com/v1_1/cub95/upload', {
-        method: 'POST',
-        body: data,
-      }).then(items => items.json())
-      let cloudinaryFile: string = items.secure_url
-      setPhoto(cloudinaryFile)
-      return cloudinaryFile
-      // } else {
-      //   let cloudinaryFile = uploadedPhoto
-      //   return cloudinaryFile
-      // }
+      if (uploadedPhoto !== '') {
+        const data = new FormData()
+        data.append('file', uploadedPhoto)
+        data.append('upload_preset', 'recipedash')
+        data.append('cloud_name', 'cub95')
+        let items = await fetch('https://api.cloudinary.com/v1_1/cub95/upload', {
+          method: 'POST',
+          body: data,
+        }).then(items => items.json())
+        let cloudinaryFile: string = items.secure_url
+        setPhoto(cloudinaryFile)
+        return cloudinaryFile
+      } else {
+        let cloudinaryFile = uploadedPhoto
+        return cloudinaryFile
+      }
 
       // createPost(e, uploadedSource, uploadedPhoto)
       // var Recipe = mongoose.model('Recipe')
@@ -166,7 +163,7 @@ function UpdatePost(props: any) {
 
   return (
     <Layout>
-      <div>
+      <div className="bg-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-24">
             <div className="flex-shrink-0">
@@ -174,187 +171,189 @@ function UpdatePost(props: any) {
             </div>
           </div>
         </div>
-        <div className="flex h-screen items-center justify-center mt-64 md:mt-40 mb-40 md:mb-40">
-          <div className="grid bg-white rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
-            <div className="flex justify-center py-4">
-              <div className="flex bg-green-200 rounded-full md:p-4 p-2 border-2 border-green-300">
-                <img
-                  className="w-10 h-10"
-                  src="https://cdn0.iconfinder.com/data/icons/fastfood-29/64/hamburger-burger-drink-soft-fastfood-fast-food-256.png"
-                ></img>
-              </div>
-            </div>
-
-            <div className="flex justify-center">
-              <div className="flex">
-                <h1 className="text-gray-600 font-bold md:text-2xl text-xl">Update your recipe</h1>
-              </div>
-            </div>
-            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
-                <div className="grid grid-cols-1">
-                  <label
-                    className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
-                    htmlFor="title"
-                  >
-                    Recipe Title<label className="text-red-500 block">Required*</label>
-                  </label>
-                  <input
-                    id="title"
-                    name="title"
-                    type="title"
-                    autoComplete="title"
-                    required
-                    className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
-                    defaultValue={props.title}
-                  />
-                </div>
-                <div className="grid grid-cols-1">
-                  <label
-                    className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
-                    htmlFor="rating"
-                  >
-                    Rating (0-10)<label className="text-red-500 block">Required*</label>
-                  </label>
-                  <input
-                    id="rating"
-                    name="rating"
-                    type="number"
-                    autoComplete="rating"
-                    required
-                    min="0"
-                    max="10"
-                    className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
-                    defaultValue={props.rating}
-                  />
+        <div className="py-20 bg-gray-100">
+          <div className="flex items-center justify-center bg-gray-100 h-full">
+            <div className="grid bg-white rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
+              <div className="flex justify-center py-4">
+                <div className="flex bg-green-200 rounded-full md:p-4 p-2 border-2 border-green-300">
+                  <img
+                    className="w-10 h-10"
+                    src="https://cdn0.iconfinder.com/data/icons/fastfood-29/64/hamburger-burger-drink-soft-fastfood-fast-food-256.png"
+                  ></img>
                 </div>
               </div>
-              <div className="grid grid-cols-1 mt-5 mx-7">
-                <label
-                  className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
-                  htmlFor="description"
-                >
-                  Description<label className="text-red-500 block">Required*</label>
-                </label>
-                <input
-                  id="description"
-                  name="description"
-                  type="description"
-                  autoComplete="description"
-                  required
-                  className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
-                  defaultValue={props.description}
-                />
-              </div>
 
-              <div className="grid grid-cols-1 mt-5 mx-7">
-                <label
-                  className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
-                  htmlFor="ingredients"
-                >
-                  Ingredients<label className="text-blue-500 block">Optional*</label>
-                </label>
-                <textarea
-                  id="ingredients"
-                  name="ingredients"
-                  placeholder="Ingredients"
-                  rows={6}
-                  className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
-                  defaultValue={props.ingredients}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 mt-5 mx-7">
-                <label
-                  className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
-                  htmlFor="instructions"
-                >
-                  Instructions<label className="text-blue-500 block">Optional*</label>
-                </label>
-                <textarea
-                  id="instructions"
-                  name="instructions"
-                  rows={6}
-                  className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
-                  placeholder="Instructions"
-                  defaultValue={props.instructions}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 mt-5 mx-7">
-                <label
-                  className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
-                  htmlFor="source"
-                >
-                  Credit the Chef <label className="text-blue-500 block">Optional*</label>
-                </label>
-                <input
-                  id="source"
-                  name="source"
-                  type="source"
-                  autoComplete="source"
-                  className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
-                  defaultValue={props.source}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 mt-5 mx-7">
-                <label className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
-                  Upload Cover Photo<label className="text-blue-500 block">Optional*</label>
-                </label>
-                <div className="mt-1">
-                  <style jsx>{`
-                    input[type='file'] {
-                      color: transparent;
-                    }
-                  `}</style>
-                  <input type="file" name="photo" className="" ref={recipeRef} />
+              <div className="flex justify-center">
+                <div className="flex">
+                  <h1 className="text-gray-600 font-bold md:text-2xl text-xl">Update your recipe</h1>
                 </div>
-                {photo ? (
-                  <div>
-                    <label className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
-                      <h1 className="mt-5">Uploaded Image:</h1>
+              </div>
+              <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
+                  <div className="grid grid-cols-1">
+                    <label
+                      className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                      htmlFor="title"
+                    >
+                      Recipe Title<label className="text-red-500 block">Required*</label>
                     </label>
-                    {photo && (
-                      <img className="max-w-screen-lg mx-auto flex h-40 w-40 my-4 p-2 bg-gray-300" src={photo} />
-                    )}
+                    <input
+                      id="title"
+                      name="title"
+                      type="title"
+                      autoComplete="title"
+                      required
+                      className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      defaultValue={props.title}
+                    />
                   </div>
-                ) : (
-                  <div>
-                    {props && props.photo && (
-                      <div>
-                        <label className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
-                          <h1 className="mt-5">Current Image:</h1>
-                        </label>
-                        <img
-                          className="max-w-screen-lg mx-auto flex h-40 w-40 my-4 p-2 bg-gray-300"
-                          src={props.photo}
-                        />
-                      </div>
-                    )}
+                  <div className="grid grid-cols-1">
+                    <label
+                      className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                      htmlFor="rating"
+                    >
+                      Rating (0-10)<label className="text-red-500 block">Required*</label>
+                    </label>
+                    <input
+                      id="rating"
+                      name="rating"
+                      type="number"
+                      autoComplete="rating"
+                      required
+                      min="0"
+                      max="10"
+                      className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      defaultValue={props.rating}
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 mt-5 mx-7">
+                  <label
+                    className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                    htmlFor="description"
+                  >
+                    Description<label className="text-red-500 block">Required*</label>
+                  </label>
+                  <input
+                    id="description"
+                    name="description"
+                    type="description"
+                    autoComplete="description"
+                    required
+                    className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                    defaultValue={props.description}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 mt-5 mx-7">
+                  <label
+                    className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                    htmlFor="ingredients"
+                  >
+                    Ingredients<label className="text-blue-500 block">Optional*</label>
+                  </label>
+                  <textarea
+                    id="ingredients"
+                    name="ingredients"
+                    placeholder="Ingredients"
+                    rows={6}
+                    className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                    defaultValue={props.ingredients}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 mt-5 mx-7">
+                  <label
+                    className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                    htmlFor="instructions"
+                  >
+                    Instructions<label className="text-blue-500 block">Optional*</label>
+                  </label>
+                  <textarea
+                    id="instructions"
+                    name="instructions"
+                    rows={6}
+                    className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                    placeholder="Instructions"
+                    defaultValue={props.instructions}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 mt-5 mx-7">
+                  <label
+                    className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                    htmlFor="source"
+                  >
+                    Credit the Chef <label className="text-blue-500 block">Optional*</label>
+                  </label>
+                  <input
+                    id="source"
+                    name="source"
+                    type="source"
+                    autoComplete="source"
+                    className="py-2 px-3 rounded-lg border-2 border-green-300 mt-1 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                    defaultValue={props.source}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 mt-5 mx-7">
+                  <label className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
+                    Upload Cover Photo<label className="text-blue-500 block">Optional*</label>
+                  </label>
+                  <div className="mt-1">
+                    <style jsx>{`
+                      input[type='file'] {
+                        color: transparent;
+                      }
+                    `}</style>
+                    <input type="file" name="photo" className="" ref={recipeRef} />
+                  </div>
+                  {photo ? (
+                    <div>
+                      <label className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
+                        <h1 className="mt-5">Uploaded Image:</h1>
+                      </label>
+                      {photo && (
+                        <img className="max-w-screen-lg mx-auto flex h-40 w-40 my-4 p-2 bg-gray-300" src={photo} />
+                      )}
+                    </div>
+                  ) : (
+                    <div>
+                      {props && props.photo && (
+                        <div>
+                          <label className="flex items-center justify-between uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
+                            <h1 className="mt-5">Current Image:</h1>
+                          </label>
+                          <img
+                            className="max-w-screen-lg mx-auto flex h-40 w-40 my-4 p-2 bg-gray-300"
+                            src={props.photo}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {success && <div className="block text-md text-indigo-600 text-center pb-2">Recipe was updated!</div>}
+                {failure && (
+                  <div className="block text-md text-indigo-600 text-center">
+                    Your recipe was not successfully updated. 😞&nbsp;&nbsp;Please try again.
                   </div>
                 )}
-              </div>
-
-              {success && <div className="block text-md text-indigo-600 text-center pb-2">Recipe was updated!</div>}
-              {failure && (
-                <div className="block text-md text-indigo-600 text-center">
-                  Your recipe was not successfully updated. 😞&nbsp;&nbsp;Please try again.
+                {isLoaded && (
+                  <div className="max-w-screen-lg mx-auto flex h-40 w-40 pl-10 p-2">
+                    <Loading />
+                  </div>
+                )}
+                <div className="flex items-center justify-center  md:gap-8 gap-4 pb-6">
+                  <a href="/dashboard">
+                    <button className="w-auto bg-green-500 hover:bg-green-700 rounded-lg shadow-xl font-medium text-white px-4 py-2">
+                      Update
+                    </button>
+                  </a>
                 </div>
-              )}
-              {isLoaded && (
-                <div className="max-w-screen-lg mx-auto flex h-40 w-40 pl-10 p-2">
-                  <Loading />
-                </div>
-              )}
-              <div className="flex items-center justify-center  md:gap-8 gap-4 pb-6">
-                <a href="/dashboard">
-                  <button className="w-auto bg-green-500 hover:bg-green-700 rounded-lg shadow-xl font-medium text-white px-4 py-2">
-                    Update
-                  </button>
-                </a>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
