@@ -1,3 +1,5 @@
+import { connectToDatabase } from 'middleware/mongodb'
+import { nanoid } from 'nanoid'
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 import nodemailer from 'nodemailer'
@@ -5,6 +7,28 @@ import nodemailer from 'nodemailer'
 const options = {
   site: process.env.NEXTAUTH_URL,
   providers: [
+    Providers.Credentials({
+      name: 'Credentials',
+      credentials: {
+        username: { label: 'Username', type: 'text', placeholder: 'demologin' },
+        password: { label: 'Password', type: 'password', placeholder: 'demopassword' },
+      },
+      async authorize(credentials) {
+        const { db } = await connectToDatabase()
+        const user = {
+          _id: nanoid(12),
+          password: credentials.password,
+          email: credentials.email,
+          createdAt: new Date(),
+        }
+        await db.collection('users').insertOne(user)
+        if (user) {
+          return user
+        } else {
+          return null
+        }
+      },
+    }),
     Providers.Email({
       server: {
         host: process.env.EMAIL_SERVER_HOST,
@@ -40,10 +64,6 @@ const options = {
         })
       },
     }),
-    Providers.Google({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-    }),
   ],
   database: process.env.MONGODB_URI,
   session: {
@@ -59,9 +79,9 @@ const options = {
       return Promise.resolve('/dashboard')
     },
   },
-  // pages: {
-  //   signIn: '/signin',
-  // },
+  pages: {
+    signIn: '/signin',
+  },
 }
 
 export default (req, res) => NextAuth(req, res, options)

@@ -1,45 +1,12 @@
 import Layout from 'assets/components/Layout'
 import Posts from 'assets/components/recipes/RecipeCards'
-import { getSession } from 'next-auth/client'
 import { useEffect, useState } from 'react'
 import Loading from 'utils/Loading'
-interface userInterface {
-  id: string
-  email: string
-  firstName?: string
-  lastName?: string
-  photo?: string
-}
 
-function Dashboard({ plainUserData }: any) {
-  const [user, setUser] = useState<userInterface>()
+function Dashboard() {
   const [isLoaded, setIsLoaded] = useState(false)
 
-  async function getUser() {
-    try {
-      const res = await fetch('/api/user/user', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      })
-
-      const items = await res.json()
-      let user: userInterface = {
-        id: items._id,
-        email: items.email,
-        firstName: items.firstName,
-        lastName: items.lastName,
-        photo: items.photo,
-      }
-
-      setUser(user)
-      return
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
   useEffect(() => {
-    getUser()
     setIsLoaded(true)
   })
 
@@ -59,11 +26,6 @@ function Dashboard({ plainUserData }: any) {
             <div className="flex items-center justify-between h-24">
               <div className="flex-shrink-0">
                 <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-                {user && user.firstName ? (
-                  <p className="text-lg">Welcome {user.firstName}</p>
-                ) : (
-                  <p className="text-lg">Welcome {user && user.email}</p>
-                )}
               </div>
               {/* <div className="block -mr-2 flex-shrink-0">
                 <a
@@ -100,34 +62,24 @@ function Dashboard({ plainUserData }: any) {
 
 export default Dashboard
 
-export async function getServerSideProps(ctx: any) {
-  const session = await getSession(ctx)
-  // console.log(session)
-  let user = session && session.user
-  // console.log(user)
-  let plainUserData = JSON.parse(JSON.stringify(user))
-  // console.log(plainUserData)
-  if (!session) {
-    ctx.res.writeHead(302, { Location: '/' })
-    ctx.res.end()
-    return {}
-  }
+// export async function getServerSideProps(ctx: any) {
+// const session = await getSession(ctx)
+// console.log(session)
+// let user = session && session.user
+// console.log(user)
+// let plainUserData = JSON.parse(JSON.stringify(user))
+// console.log(plainUserData)
+// if (!session) {
+//   ctx.res.writeHead(302, { Location: '/' })
+//   ctx.res.end()
+//   return {}
+// }
 
-  // recreating the object with plucked props
-  // let plainData = {
-  //   user: session.user,
-  // }
+// return {
+//   props: {
+//     plainUserData,
+//   },
+// }
 
-  // data conversion (wax-on wax-off)
-  // const strippedPlainData = JSON.parse(JSON.stringify(plainData))
-
-  // return res.status(200).json(plainUserData)
-
-  return {
-    props: {
-      plainUserData,
-    },
-  }
-
-  // return { props: { plainUserData } }
-}
+// return { props: { plainUserData } }
+// }

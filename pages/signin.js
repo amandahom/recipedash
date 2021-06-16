@@ -1,7 +1,21 @@
-import { getSession, providers, signIn } from 'next-auth/client'
-import React from 'react'
+import { getCsrfToken, providers, signIn } from 'next-auth/client'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 function SignIn({ providers, csrfToken }) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loginError, setLoginError] = useState('')
+  const router = useRouter()
+
+  useEffect(() => {
+    // Getting the error details from URL
+    if (router.query.error) {
+      setLoginError(router.query.error) // Shown below the input field in my example
+      setEmail(router.query.email) // To prefill the email after redirect
+    }
+  }, [router])
+
   return (
     <div>
       <div className="min-h-screen flex items-stretch text-white">
@@ -38,6 +52,18 @@ function SignIn({ providers, csrfToken }) {
               </label>
               <button type="submit">Sign in with Email</button>
             </form>
+            <form method="post" action="/api/auth/callback/credentials">
+              <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+              <label>
+                Username
+                <input name="username" type="text" />
+              </label>
+              <label>
+                Password
+                <input name="password" type="password" />
+              </label>
+              <button type="submit">Sign in</button>
+            </form>
             <div>
               {Object.values(providers).map((provider, index) => {
                 return (
@@ -61,8 +87,7 @@ function SignIn({ providers, csrfToken }) {
 
 SignIn.getInitialProps = async context => {
   const { req, res } = context
-  const session = await getSession({ req })
-  console.log(session)
+  console.log(context)
   // const csrfToken = await getCsrfToken(context)
   if (session && res && session.accessToken) {
     res.writeHead(302, {
@@ -75,7 +100,9 @@ SignIn.getInitialProps = async context => {
   return {
     session: undefined,
     providers: await providers(context),
-    // props: { csrfToken },
+    props: {
+      csrfToken: await getCsrfToken(context),
+    },
   }
 }
 

@@ -155,7 +155,6 @@ function Profile() {
                   <div className="px-0">
                     <h3 className="text-xl sm:text-lg font-medium leading-6 text-gray-900">Personal Information</h3>
                     <p className="mt-1 text-md sm:text-sm text-gray-600">
-                      {' '}
                       This information will be displayed publicly.
                     </p>
                   </div>
