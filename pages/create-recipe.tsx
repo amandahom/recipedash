@@ -5,7 +5,7 @@ import Layout from 'assets/components/Layout'
 import { nanoid } from 'nanoid'
 // import { getSession } from 'next-auth/client'
 import React, { useEffect, useRef, useState } from 'react'
-import Loading from 'utils/Loading'
+import Loading from 'utils/White-Loading'
 
 // interface FileInterface {
 //   secure_url: string

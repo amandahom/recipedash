@@ -5,7 +5,7 @@ import Layout from 'assets/components/Layout'
 // import { getSession } from 'next-auth/client'
 import { GetServerSideProps } from 'next'
 import React, { useEffect, useRef, useState } from 'react'
-import Loading from 'utils/Loading'
+import Loading from 'utils/White-Loading'
 
 // interface FileInterface {
 //   secure_url: string

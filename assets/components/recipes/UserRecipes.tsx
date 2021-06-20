@@ -253,7 +253,7 @@ function UserPosts() {
                           id={indivPost.id}
                           className="w-32 md:w-full h-10 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                         >
-                          <span className="mr-2">Delete</span>
+                          <span className="ml-4 sm:ml-0 mr-2">Delete</span>
                           <svg
                             className="w-6 h-6 cursor-pointer"
                             fill="none"

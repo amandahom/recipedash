@@ -86,47 +86,12 @@ const Recipe = (props: any) => {
     return (
       <Layout>
         <div className="bg-gray-100 min-h-screen">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 pb-20 lg:pb-10">
             <div className="flex items-center justify-between h-24">
               <div className="flex-shrink-0">
                 <h1 className="text-3xl font-bold text-black">Recipe:</h1>
               </div>
             </div>
-
-            {/* <div className="p-10 sm:p-20 2xl:p-40 mx-2 md:mx-4 lg:mx-10 pb-10">
-              <Link
-                href={{
-                  pathname: '/recipe/[id]',
-                  query: {
-                    id: props.id,
-                  },
-                }}
-                as={`/recipe/${props.id}`}
-              >
-                <div id={props.id}>
-                  <div className="bg-white w-128 h-96 rounded shadow-md flex card text-grey-darkest">
-                    <img className="w-1/2 h-full rounded-l-sm" src={props.photo}></img>
-                    <div className="w-full flex flex-col">
-                      <div className="p-4 pb-0 flex-1">
-                        <h3 className="font-light mb-1 text-grey-darkest">{props.title}</h3>
-                        <div className="flex items-center mt-4">
-                          <div className="pr-2 text-xs">{props.createdBy}</div>
-                          <div className="px-2 text-xs">{props.createdAt}</div>
-                        </div>
-                        <div className="text-xs flex items-center mb-4">{props.description}</div>
-                        <div className="text-xs flex items-center mb-4">Rating: {props.rating}</div>
-                      </div>
-                      <div className="bg-grey-lighter p-3 flex items-center justify-between transition hover:bg-grey-light">
-                        {props.source}
-                      </div>
-                      <div className="bg-grey-lighter p-3 flex items-center justify-between transition hover:bg-grey-light">
-                        {props.url}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </div> */}
 
             <div className="flex items-center p-5 lg:p-10 overflow-hidden relative">
               <div className="w-full max-w-6xl rounded bg-white shadow-xl p-5 lg:p-10 mx-auto text-black relative md:text-left">
