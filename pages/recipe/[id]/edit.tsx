@@ -406,7 +406,7 @@ export default UpdatePost
 
 export const getServerSideProps: GetServerSideProps = async context => {
   let recipeId = context.query.id
-  const res = await fetch(`http://localhost:3000/api/posts/${recipeId}`, {
+  const res = await fetch(`https://recipedash.amandahom.com/api/posts/${recipeId}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })

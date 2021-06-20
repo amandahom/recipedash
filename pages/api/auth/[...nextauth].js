@@ -50,9 +50,9 @@ const options = {
   callbacks: {
     redirect: async (url, _) => {
       if (url === '/api/auth/signin') {
-        return Promise.resolve('http://localhost:3000/')
+        return Promise.resolve('https://recipedash.amandahom.com/')
       }
-      return Promise.resolve('http://localhost:3000/')
+      return Promise.resolve('https://recipedash.amandahom.com/')
     },
   },
   pages: {
@@ -113,5 +113,3 @@ const html = ({ url, site, email }) => {
 
 // Email text body – fallback for email clients that don't render HTML
 const text = ({ url, site }) => `Sign in to ${site}\n${url}\n\n`
-
-// http://localhost:3000/api/auth/callback/email?email=amandakhom%40gmail.com&token=1dcf7fd8149f5d009cd48e7778103ab3a20b9e85b72a198e548c85302555c6b5

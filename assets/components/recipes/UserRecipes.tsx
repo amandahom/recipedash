@@ -108,7 +108,7 @@ function UserPosts() {
         body: JSON.stringify(body),
       })
 
-      window.location.href = 'http://localhost:3000/recipes'
+      window.location.href = 'https://recipedash.amandahom.com/recipes'
     } catch (err) {
       console.log(err)
     }
