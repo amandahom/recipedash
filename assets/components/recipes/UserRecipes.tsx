@@ -40,6 +40,7 @@ interface userInterface {
 function UserPosts() {
   const [indivPost, setIndivPost] = useState<PostDataInterface>()
   const [isLoaded, setIsLoaded] = useState(false)
+  const [emptyMessage, setEmptyMessage] = useState(false)
   // const [showModal, setShowModal] = useState(false)
   // const [data, setData] = useState('')
   const [user, setUser] = useState<userInterface>()
@@ -59,6 +60,10 @@ function UserPosts() {
       createdAt: posts.createdAt,
       createdBy: posts.createdBy,
     }))
+
+    if (items.length === 0) {
+      setEmptyMessage(true)
+    }
 
     return {
       posts: posts,
@@ -97,15 +102,13 @@ function UserPosts() {
         id: e.target.parentElement.id,
       }
 
-      console.log(body)
-
       const res = await fetch('/api/posts/deleteRecipe', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
 
-      console.log(res)
+      window.location.href = 'http://localhost:3000/recipes'
     } catch (err) {
       console.log(err)
     }
@@ -157,7 +160,7 @@ function UserPosts() {
                 <div className="flex-auto ml-3 justify-evenly py-2">
                   <div className="flex flex-wrap">
                     <div className="w-full flex-none text-xs text-indigo-700 font-medium ">Recipe</div>
-                    <h2 className="flex-auto text-lg font-medium break-normal">{indivPost.title}</h2>
+                    <h2 className="flex-auto text-lg font-medium break-words">{indivPost.title}</h2>
                     <Link
                       href={{
                         pathname: '/recipe/[id]',
@@ -189,15 +192,15 @@ function UserPosts() {
                       </svg>
                     </Link>
                   </div>
-                  {user && user.firstName ? (
+                  {/* {user && user.firstName ? (
                     <div className="flex mt-2 mb-6 text-sm text-black break-words max-w-xs">
                       <p>
                         <span className="font-bold">Posted by: </span>
                         {user && user.firstName} {user && user.lastName}
                       </p>
                     </div>
-                  ) : null}
-                  <div className="flex my-2 text-sm text-gray-600 break-all max-w-xs">{indivPost.description}</div>
+                  ) : null} */}
+                  <div className="flex my-2 text-sm text-gray-600 break-words max-w-xs">{indivPost.description}</div>
                   <div className="flex py-4 text-sm text-gray-600">
                     <div className="flex-1 inline-flex items-center">
                       <svg
@@ -318,7 +321,7 @@ function UserPosts() {
     )
   } else {
     return (
-      <div className="bg-gray-100">
+      <div className="bg-gray-100 h-screen">
         <div className="max-w-7xl mx-auto px-2 sm:px-20 lg:px-8 pt-4 pb-20 lg:pt-8 lg:pb-20">
           {indivPost && (
             <div className="grid gap-8 lg:gap-20 grid-cols-1 md:grid-cols-2 xl:grid-cols-2 place-items-center">
@@ -327,7 +330,15 @@ function UserPosts() {
               })}
             </div>
           )}
-          {/* {showModal ? <Modal handleModal={data} /> : null} */}
+          {emptyMessage && (
+            <h1 className="text-center text-xl lg:text-2xl">
+              You have not created a recipe yet.{' '}
+              <a className="underline hover:text-indigo-700" href="/create-recipe">
+                Click here to get started.
+              </a>{' '}
+              😊
+            </h1>
+          )}
         </div>
       </div>
     )

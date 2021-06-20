@@ -115,11 +115,8 @@ function Posts() {
         as={`/recipe/${indivPost.id}`}
       >
         <div className="p-2 min-w-full">
-          <div
-            className="flex flex-col cursor-pointer transition duration-500 ease-in-out hover:-translate-y-1 hover:scale-105 transform hover:shadow-2xl"
-            key={index}
-          >
-            <div className="bg-white shadow-md rounded-3xl p-4">
+          <div className="flex flex-col" key={index}>
+            <div className="bg-white shadow-md rounded-3xl p-4 cursor-pointer transition duration-500 ease-in-out hover:-translate-y-1 hover:scale-105 transform hover:shadow-2xl">
               <div className="flex-none lg:flex">
                 <div className="h-full w-full lg:h-48 lg:w-48 lg:mb-0 mb-3">
                   <img
@@ -131,7 +128,7 @@ function Posts() {
                 <div className="flex-auto ml-3 justify-evenly py-2">
                   <div className="flex flex-wrap">
                     <div className="w-full flex-none text-xs text-indigo-700 font-medium ">Recipe</div>
-                    <h2 className="flex-auto text-lg font-medium break-normal">{indivPost.title}</h2>
+                    <h2 className="flex-auto text-lg font-medium break-words">{indivPost.title}</h2>
                     <Link
                       href={{
                         pathname: '/recipe/[id]',
@@ -163,15 +160,15 @@ function Posts() {
                       </svg>
                     </Link>
                   </div>
-                  {user && user.firstName ? (
+                  {/* {user && user.firstName ? (
                     <div className="flex mt-2 mb-6 text-sm text-black break-words max-w-xs">
                       <p>
                         <span className="font-bold">Posted by: </span>
                         {user && user.firstName} {user && user.lastName}
                       </p>
                     </div>
-                  ) : null}
-                  <div className="flex my-2 text-sm text-gray-600 break-all max-w-xs">{indivPost.description}</div>
+                  ) : null} */}
+                  <div className="flex my-2 text-sm text-gray-600 break-words max-w-xs">{indivPost.description}</div>
                   <div className="flex py-4 text-sm text-gray-600">
                     <div className="flex-1 inline-flex items-center">
                       <svg
@@ -231,8 +228,6 @@ function Posts() {
     return (
       <div className="bg-gray-100">
         <div className="max-w-7xl mx-auto px-2 sm:px-20 lg:px-8 pt-4 pb-20 lg:pt-8 lg:pb-20">
-          <h1 className="px-2 text-3xl font-bold text-gray-900">Recent Recipes</h1>
-
           {indivPost && (
             <div className="grid gap-8 lg:gap-20 grid-cols-1 md:grid-cols-2 xl:grid-cols-2 place-items-center">
               {indivPost.map((indivPost: PostInterface, index: number) => {

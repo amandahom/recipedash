@@ -1,4 +1,4 @@
-import Footer from 'assets/components/Footer'
+// import Footer from 'assets/components/Footer'
 import Head from 'next/head'
 import * as React from 'react'
 import Navbar from '../../assets/components/Navbar'
@@ -14,7 +14,7 @@ function Layout(props: any) {
         <main className="mb-auto">
           <div className="mx-auto flex-grow">{props.children}</div>
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </React.Fragment>
   )

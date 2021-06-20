@@ -25,5 +25,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/signin.js"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/signin.tsx"]
 }

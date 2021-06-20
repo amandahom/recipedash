@@ -135,7 +135,7 @@ const Recipe = (props: any) => {
                     <div className="relative">
                       <img
                         src={props.photo}
-                        className="w-full relative z-10 w-full object-scale-down lg:object-cover lg:h-48 rounded-2xl"
+                        className="w-full relative z-10 w-full object-scale-down lg:object-cover lg:h-120 rounded-2xl"
                       ></img>
                     </div>
                   </div>
@@ -194,7 +194,7 @@ const Recipe = (props: any) => {
                       </div>
                     </div>
                     <div className="my-4">
-                      <p className="text-sm break-words max-w-xs md:max-w-sm">{props.description}</p>
+                      <p className="text-md break-words max-w-xs md:max-w-sm">{props.description}</p>
                     </div>
                     {props && props.ingredients ? (
                       <div className="my-4">

@@ -12,12 +12,8 @@ export default function Home() {
           `}</style>
           <div className="h-screen flex items-center justify-center">
             <div className="mx-2 text-center">
-              <h1 className="text-white text-6xl">
-                <span>RecipeApp</span>
-              </h1>
-              <h2 className="text-white text-2xl md:text-2xl leading-tight py-10">
-                <span>A home for recipes.</span>
-              </h2>
+              <h1 className="text-white text-6xl py-4">RecipeDash</h1>
+              <h2 className="text-white text-2xl md:text-2xl leading-tight p-4">A home for recipes.</h2>
             </div>
           </div>
         </header>

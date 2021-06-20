@@ -64,9 +64,9 @@ function Navbar() {
 
                       <button
                         onClick={() => signIn()}
-                        className="inline-block py-2 px-4 text-indigo-700 hover:text-indigo-100 bg-indigo-200 hover:bg-indigo-500 border-indigo-200 border-2 rounded transition ease-in duration-150 focus:outline-none"
+                        className="inline-block w-auto bg-purple-500 hover:bg-purple-700 rounded-md shadow-xl font-medium text-white px-4 py-3 rounded transition ease-in duration-150 focus:outline-none"
                       >
-                        Sign in or View Demo
+                        Sign in & View Demo
                       </button>
                     </div>
                   </div>
@@ -172,7 +172,7 @@ function Navbar() {
                                             active ? 'bg-gray-100' : '',
                                             'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
                                           )}
-                                          onClick={() => signOut()}
+                                          onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}
                                         >
                                           Sign out
                                         </a>
@@ -236,7 +236,7 @@ function Navbar() {
                         ))}
                         <a
                           className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
-                          onClick={() => signOut()}
+                          onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}
                         >
                           Sign out
                         </a>

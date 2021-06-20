@@ -48,6 +48,8 @@ function UpdatePost(props: any) {
       e && e.currentTarget && e.currentTarget.ingredients && e.currentTarget.ingredients.value
     let recipeInstructions: string =
       e && e.currentTarget && e.currentTarget.instructions && e.currentTarget.instructions.value
+    let uploadedPhoto: any = recipeRef && recipeRef.current && recipeRef.current.files && recipeRef.current.files[0]
+    console.log(uploadedPhoto)
     try {
       const res = await fetch('/api/user/user', {
         method: 'GET',
@@ -57,47 +59,54 @@ function UpdatePost(props: any) {
       const data = await res.json()
       let userId: string = data._id
       let userEmail: string = data.email
-      console.log(userEmail)
-      let file: string = (await uploadDetails()) || ''
+      if (uploadedPhoto === undefined) {
+        console.log('test')
+        updatePost(
+          recipeId,
+          recipeTitle,
+          userId,
+          userEmail,
+          recipeRating,
+          recipeDescription,
+          recipeIngredients,
+          recipeInstructions,
+          uploadedSource,
+        )
+      } else {
+        let file: string = (await uploadDetails(uploadedPhoto)) || ''
 
-      createPost(
-        recipeId,
-        recipeTitle,
-        userId,
-        userEmail,
-        recipeRating,
-        recipeDescription,
-        recipeIngredients,
-        recipeInstructions,
-        file,
-        uploadedSource,
-      )
+        updateFilePost(
+          recipeId,
+          recipeTitle,
+          userId,
+          userEmail,
+          recipeRating,
+          recipeDescription,
+          recipeIngredients,
+          recipeInstructions,
+          file,
+          uploadedSource,
+        )
+      }
     } catch (err) {
       setFailure(true)
       console.log(err)
     }
   }
 
-  const uploadDetails = async () => {
-    let uploadedPhoto: any = recipeRef && recipeRef.current && recipeRef.current.files && recipeRef.current.files[0]
-
+  const uploadDetails = async (uploadedPhoto: string) => {
     try {
-      if (uploadedPhoto !== '') {
-        const data = new FormData()
-        data.append('file', uploadedPhoto)
-        data.append('upload_preset', 'recipedash')
-        data.append('cloud_name', 'cub95')
-        let items = await fetch('https://api.cloudinary.com/v1_1/cub95/upload', {
-          method: 'POST',
-          body: data,
-        }).then(items => items.json())
-        let cloudinaryFile: string = items.secure_url
-        setPhoto(cloudinaryFile)
-        return cloudinaryFile
-      } else {
-        let cloudinaryFile = uploadedPhoto
-        return cloudinaryFile
-      }
+      const data = new FormData()
+      data.append('file', uploadedPhoto)
+      data.append('upload_preset', 'recipedash')
+      data.append('cloud_name', 'cub95')
+      let items = await fetch('https://api.cloudinary.com/v1_1/cub95/upload', {
+        method: 'POST',
+        body: data,
+      }).then(items => items.json())
+      let cloudinaryFile: string = items.secure_url
+      setPhoto(cloudinaryFile)
+      return cloudinaryFile
 
       // createPost(e, uploadedSource, uploadedPhoto)
       // var Recipe = mongoose.model('Recipe')
@@ -108,7 +117,7 @@ function UpdatePost(props: any) {
     }
   }
 
-  const createPost = async (
+  const updateFilePost = async (
     recipeId: string,
     recipeTitle: string,
     userId: string,
@@ -121,8 +130,6 @@ function UpdatePost(props: any) {
     uploadedSource: string,
   ) => {
     try {
-      console.log(userEmail)
-      console.log(recipeId)
       const body = {
         _id: recipeId,
         title: recipeTitle,
@@ -137,7 +144,46 @@ function UpdatePost(props: any) {
         source: uploadedSource,
       }
 
-      console.log(body)
+      const res = await fetch('/api/posts/updateRecipe', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+
+      console.log(res)
+      setSuccess(true)
+      setIsLoaded(false)
+    } catch (err) {
+      setFailure(true)
+      console.log(err)
+    }
+  }
+
+  const updatePost = async (
+    recipeId: string,
+    recipeTitle: string,
+    userId: string,
+    userEmail: string,
+    recipeRating: string,
+    recipeDescription: string,
+    recipeIngredients: string,
+    recipeInstructions: string,
+    uploadedSource: string,
+  ) => {
+    try {
+      const body = {
+        _id: recipeId,
+        title: recipeTitle,
+        createdBy: userId,
+        creatorEmail: userEmail,
+        createdAt: new Date(),
+        rating: recipeRating,
+        description: recipeDescription,
+        ingredients: recipeIngredients,
+        instructions: recipeInstructions,
+        source: uploadedSource,
+        photo: '',
+      }
 
       const res = await fetch('/api/posts/updateRecipe', {
         method: 'PUT',
@@ -301,11 +347,6 @@ function UpdatePost(props: any) {
                     Upload Cover Photo<label className="text-blue-500 block">Optional*</label>
                   </label>
                   <div className="mt-1">
-                    <style jsx>{`
-                      input[type='file'] {
-                        color: transparent;
-                      }
-                    `}</style>
                     <input type="file" name="photo" className="" ref={recipeRef} />
                   </div>
                   {photo ? (
@@ -341,7 +382,7 @@ function UpdatePost(props: any) {
                   </div>
                 )}
                 {isLoaded && (
-                  <div className="max-w-screen-lg mx-auto flex h-40 w-40 pl-10 p-2">
+                  <div className="max-w-screen-lg mx-auto flex h-40 w-40 pl-10 p-2 bg-white">
                     <Loading />
                   </div>
                 )}

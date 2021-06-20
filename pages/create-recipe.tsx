@@ -303,7 +303,7 @@ function CreatePost() {
                   </div>
                 )}
                 {isLoaded && (
-                  <div className="max-w-screen-lg mx-auto flex h-40 w-40 pl-10 p-2">
+                  <div className="max-w-screen-lg mx-auto flex h-40 w-40 pl-10 p-2 bg-white">
                     <Loading />
                   </div>
                 )}

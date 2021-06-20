@@ -1,5 +1,3 @@
-import { connectToDatabase } from 'middleware/mongodb'
-import { nanoid } from 'nanoid'
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 import nodemailer from 'nodemailer'
@@ -7,28 +5,6 @@ import nodemailer from 'nodemailer'
 const options = {
   site: process.env.NEXTAUTH_URL,
   providers: [
-    Providers.Credentials({
-      name: 'Credentials',
-      credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'demologin' },
-        password: { label: 'Password', type: 'password', placeholder: 'demopassword' },
-      },
-      async authorize(credentials) {
-        const { db } = await connectToDatabase()
-        const user = {
-          _id: nanoid(12),
-          password: credentials.password,
-          email: credentials.email,
-          createdAt: new Date(),
-        }
-        await db.collection('users').insertOne(user)
-        if (user) {
-          return user
-        } else {
-          return null
-        }
-      },
-    }),
     Providers.Email({
       server: {
         host: process.env.EMAIL_SERVER_HOST,
@@ -74,13 +50,14 @@ const options = {
   callbacks: {
     redirect: async (url, _) => {
       if (url === '/api/auth/signin') {
-        return Promise.resolve('/dashboard')
+        return Promise.resolve('http://localhost:3000/')
       }
-      return Promise.resolve('/dashboard')
+      return Promise.resolve('http://localhost:3000/')
     },
   },
   pages: {
     signIn: '/signin',
+    verifyRequest: '/verify-request',
   },
 }
 
@@ -129,11 +106,6 @@ const html = ({ url, site, email }) => {
         </table>
       </td>
     </tr>
-    <tr>
-      <td align="center" style="padding: 0px 0px 10px 0px; font-size: 16px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: ${textColor};">
-        If you did not request this email, you can ignore this.
-      </td>
-    </tr>
   </table>
 </body>
 `
@@ -141,3 +113,5 @@ const html = ({ url, site, email }) => {
 
 // Email text body – fallback for email clients that don't render HTML
 const text = ({ url, site }) => `Sign in to ${site}\n${url}\n\n`
+
+// http://localhost:3000/api/auth/callback/email?email=amandakhom%40gmail.com&token=1dcf7fd8149f5d009cd48e7778103ab3a20b9e85b72a198e548c85302555c6b5
