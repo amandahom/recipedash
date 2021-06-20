@@ -29,13 +29,13 @@ interface PostInterface {
   createdBy: string
 }
 
-interface userInterface {
-  id: string
-  email: string
-  firstName?: string
-  lastName?: string
-  photo?: string
-}
+// interface userInterface {
+//   id: string
+//   email: string
+//   firstName?: string
+//   lastName?: string
+//   photo?: string
+// }
 
 function UserPosts() {
   const [indivPost, setIndivPost] = useState<PostDataInterface>()
@@ -43,7 +43,7 @@ function UserPosts() {
   const [emptyMessage, setEmptyMessage] = useState(false)
   // const [showModal, setShowModal] = useState(false)
   // const [data, setData] = useState('')
-  const [user, setUser] = useState<userInterface>()
+  // const [user, setUser] = useState<userInterface>()
 
   const requestPosts = async () => {
     const res = await fetch('/api/user/userRecipes')
@@ -70,28 +70,28 @@ function UserPosts() {
     }
   }
 
-  async function getUser() {
-    try {
-      const res = await fetch('/api/user/user', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      })
+  // async function getUser() {
+  //   try {
+  //     const res = await fetch('/api/user/user', {
+  //       method: 'GET',
+  //       headers: { 'Content-Type': 'application/json' },
+  //     })
 
-      const items = await res.json()
-      let user: userInterface = {
-        id: items._id,
-        email: items.email,
-        firstName: items.firstName,
-        lastName: items.lastName,
-        photo: items.photo,
-      }
+  //     const items = await res.json()
+  //     let user: userInterface = {
+  //       id: items._id,
+  //       email: items.email,
+  //       firstName: items.firstName,
+  //       lastName: items.lastName,
+  //       photo: items.photo,
+  //     }
 
-      setUser(user)
-      return
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  //     setUser(user)
+  //     return
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
   const deletePost = async (e: any) => {
     try {
@@ -102,7 +102,7 @@ function UserPosts() {
         id: e.target.parentElement.id,
       }
 
-      const res = await fetch('/api/posts/deleteRecipe', {
+      await fetch('/api/posts/deleteRecipe', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -118,7 +118,7 @@ function UserPosts() {
     async function getPosts() {
       const postRes = await requestPosts()
       setIndivPost(postRes.posts)
-      getUser()
+      // getUser()
       setIsLoaded(true)
     }
     getPosts()

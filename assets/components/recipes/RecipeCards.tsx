@@ -35,18 +35,18 @@ interface PostInterface {
   createdBy: string
 }
 
-interface userInterface {
-  id: string
-  email: string
-  firstName?: string
-  lastName?: string
-  photo?: string
-}
+// interface userInterface {
+//   id: string
+//   email: string
+//   firstName?: string
+//   lastName?: string
+//   photo?: string
+// }
 
 function Posts() {
   const [indivPost, setIndivPost] = useState<PostDataInterface>()
   const [isLoaded, setIsLoaded] = useState(false)
-  const [user, setUser] = useState<userInterface>()
+  // const [user, setUser] = useState<userInterface>()
 
   const requestPosts = async () => {
     const res = await fetch('/api/posts/allRecipes')
@@ -70,34 +70,34 @@ function Posts() {
     }
   }
 
-  async function getUser() {
-    try {
-      const res = await fetch('/api/user/user', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      })
+  // async function getUser() {
+  //   try {
+  //     const res = await fetch('/api/user/user', {
+  //       method: 'GET',
+  //       headers: { 'Content-Type': 'application/json' },
+  //     })
 
-      const items = await res.json()
-      let user: userInterface = {
-        id: items._id,
-        email: items.email,
-        firstName: items.firstName,
-        lastName: items.lastName,
-        photo: items.photo,
-      }
+  //     const items = await res.json()
+  //     let user: userInterface = {
+  //       id: items._id,
+  //       email: items.email,
+  //       firstName: items.firstName,
+  //       lastName: items.lastName,
+  //       photo: items.photo,
+  //     }
 
-      setUser(user)
-      return
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  //     setUser(user)
+  //     return
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
   useEffect(() => {
     async function getPosts() {
       const res = await requestPosts()
       setIndivPost(res.posts)
-      getUser()
+      // getUser()
       setIsLoaded(true)
     }
     getPosts()
