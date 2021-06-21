@@ -7,10 +7,6 @@ import { GetServerSideProps } from 'next'
 import React, { useEffect, useRef, useState } from 'react'
 import Loading from 'utils/Loading'
 
-// interface FileInterface {
-//   secure_url: string
-// }
-
 interface PostDataInterface {
   title: string
   ingredients: Array<String>
@@ -18,14 +14,10 @@ interface PostDataInterface {
   rating: Number
   description: string
   photo: string
-  // _id: string
   source: string
-  // url: string
   createdAt: Date
   createdBy: string
 }
-
-// let cloudinaryURL = process && process.env && process.env.CLOUDINARY_FETCH_URL ? process.env.CLOUDINARY_FETCH_URL : ''
 
 function UpdatePost(props: any) {
   const [photo, setPhoto] = useState('')
@@ -49,7 +41,6 @@ function UpdatePost(props: any) {
     let recipeInstructions: string =
       e && e.currentTarget && e.currentTarget.instructions && e.currentTarget.instructions.value
     let uploadedPhoto: any = recipeRef && recipeRef.current && recipeRef.current.files && recipeRef.current.files[0]
-    console.log(uploadedPhoto)
     try {
       const res = await fetch('/api/user/user', {
         method: 'GET',
@@ -60,7 +51,6 @@ function UpdatePost(props: any) {
       let userId: string = data._id
       let userEmail: string = data.email
       if (uploadedPhoto === undefined) {
-        console.log('test')
         updatePost(
           recipeId,
           recipeTitle,
@@ -144,13 +134,12 @@ function UpdatePost(props: any) {
         source: uploadedSource,
       }
 
-      const res = await fetch('/api/posts/updateRecipe', {
+      await fetch('/api/posts/updateRecipe', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
 
-      console.log(res)
       setSuccess(true)
       setIsLoaded(false)
     } catch (err) {
@@ -185,13 +174,12 @@ function UpdatePost(props: any) {
         photo: '',
       }
 
-      const res = await fetch('/api/posts/updateRecipe', {
+      await fetch('/api/posts/updateRecipe', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
 
-      console.log(res)
       setSuccess(true)
       setIsLoaded(false)
     } catch (err) {

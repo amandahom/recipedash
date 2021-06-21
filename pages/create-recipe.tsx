@@ -3,15 +3,10 @@
 // import mongoose from 'mongoose'
 import Layout from 'assets/components/Layout'
 import { nanoid } from 'nanoid'
+import { getSession } from 'next-auth/client'
 // import { getSession } from 'next-auth/client'
 import React, { useEffect, useRef, useState } from 'react'
 import Loading from 'utils/Loading'
-
-// interface FileInterface {
-//   secure_url: string
-// }
-
-// let cloudinaryURL = process && process.env && process.env.CLOUDINARY_FETCH_URL ? process.env.CLOUDINARY_FETCH_URL : ''
 
 function CreatePost() {
   const [photo, setPhoto] = useState('')
@@ -19,8 +14,6 @@ function CreatePost() {
   const [failure, setFailure] = useState(false)
   const recipeRef = useRef<HTMLInputElement>(null)
   const [isLoaded, setIsLoaded] = useState(true)
-
-  // const [userEmail, setUserEmail] = useState<string | null | undefined>('')
 
   async function handleSubmit(e: any) {
     e.preventDefault()
@@ -44,7 +37,6 @@ function CreatePost() {
       const data = await res.json()
       let userId: string = data._id
       let userEmail: string = data.email
-      console.log(userEmail)
       let file: string = (await uploadDetails()) || ''
 
       createPost(
@@ -112,7 +104,6 @@ function CreatePost() {
     uploadedSource: string,
   ) => {
     try {
-      console.log(userEmail)
       const body = {
         _id: nanoid(12),
         title: recipeTitle,
@@ -127,15 +118,12 @@ function CreatePost() {
         source: uploadedSource,
       }
 
-      console.log(body)
-
-      const res = await fetch('/api/posts/writeRecipe', {
+      await fetch('/api/posts/writeRecipe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
 
-      console.log(res)
       setSuccess(true)
       setIsLoaded(false)
     } catch (err) {
@@ -245,7 +233,7 @@ function CreatePost() {
                   <textarea
                     id="ingredients"
                     name="ingredients"
-                    placeholder="Ingredients"
+                    placeholder="1. Boil water and cook the pasta."
                     rows={6}
                     className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                     defaultValue={''}
@@ -264,7 +252,7 @@ function CreatePost() {
                     name="instructions"
                     rows={6}
                     className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                    placeholder="Instructions"
+                    placeholder="- 2 cups of whole milk"
                     defaultValue={''}
                   />
                 </div>
@@ -324,3 +312,19 @@ function CreatePost() {
 }
 
 export default CreatePost
+
+export async function getServerSideProps(ctx: any) {
+  const session = await getSession(ctx)
+  let user = session && session.user
+  if (!session) {
+    ctx.res.writeHead(302, { Location: '/' })
+    ctx.res.end()
+    return {}
+  }
+
+  return {
+    props: {
+      user: user && user.name,
+    },
+  }
+}

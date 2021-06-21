@@ -10,21 +10,17 @@ function Modal({ handleModal }: any) {
   const deletePost = async (e: any) => {
     try {
       e.preventDefault()
-      console.log(e)
 
       const body = {
         id: e.target.getAttribute('data-tag'),
       }
 
-      console.log(body)
-
-      const res = await fetch('/api/posts/deleteRecipe', {
+      await fetch('/api/posts/deleteRecipe', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
 
-      console.log(res)
       window.location.reload()
     } catch (err) {
       setFailure(true)
@@ -61,8 +57,6 @@ function Modal({ handleModal }: any) {
           >
             <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
           </Transition.Child>
-
-          {/* This element is to trick the browser into centering the modal contents. */}
           <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
             &#8203;
           </span>

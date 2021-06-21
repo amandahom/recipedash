@@ -99,7 +99,6 @@ function Navbar() {
                             {NavItems.map((item, index) =>
                               index === 0 ? (
                                 <Fragment key={item.title}>
-                                  {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                                   <a
                                     href={item.url}
                                     className="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
@@ -122,7 +121,6 @@ function Navbar() {
                       </div>
                       <div className="hidden md:block">
                         <div className="ml-4 flex items-center md:ml-6">
-                          {/* Profile dropdown */}
                           <Menu as="div" className="ml-3 relative">
                             {({ open }) => (
                               <>
@@ -186,7 +184,6 @@ function Navbar() {
                         </div>
                       </div>
                       <div className="-mr-2 flex md:hidden">
-                        {/* Mobile menu button */}
                         <Disclosure.Button className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
                           <span className="sr-only">Open main menu</span>
                           {open ? (
@@ -204,7 +201,6 @@ function Navbar() {
                       {NavItems.map((item, index) =>
                         index === 0 ? (
                           <Fragment key={item.title}>
-                            {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                             <a
                               href={item.url}
                               className="text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium"

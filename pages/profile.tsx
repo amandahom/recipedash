@@ -1,5 +1,5 @@
 import Layout from 'assets/components/Layout'
-// import { useSession } from 'next-auth/client'
+import { getSession } from 'next-auth/client'
 import React, { useEffect, useState } from 'react'
 import Loading from 'utils/Loading'
 
@@ -16,9 +16,7 @@ function Profile() {
   const [profileLoad, setProfileLoad] = useState(false)
   const [success, setSuccess] = useState(false)
   const [failure, setFailure] = useState(false)
-  // const [photo, setPhoto] = useState('')
   const [user, setUser] = useState<userInterface>()
-  // const profileRef = useRef<HTMLInputElement>(null)
 
   async function getUser() {
     try {
@@ -60,7 +58,6 @@ function Profile() {
 
       const data = await res.json()
       let userId: string = data._id
-      // let file: string = (await uploadDetails()) || ''
 
       createPost(firstName, lastName, email, userId)
     } catch (err) {
@@ -68,35 +65,6 @@ function Profile() {
       console.log(err)
     }
   }
-
-  // const uploadDetails = async () => {
-  //   let uploadedPhoto: File | string =
-  //     profileRef && profileRef.current && profileRef.current.files && profileRef.current.files[0]
-  //       ? profileRef.current.files[0]
-  //       : 'https://res.cloudinary.com/cub95/image/upload/v1623556989/RecipeDash/profile_g9e0tv.png'
-
-  //   try {
-  //     if (uploadedPhoto !== 'https://res.cloudinary.com/cub95/image/upload/v1623556989/RecipeDash/profile_g9e0tv.png') {
-  //       const data = new FormData()
-  //       data.append('file', uploadedPhoto)
-  //       data.append('upload_preset', 'recipedash')
-  //       data.append('cloud_name', 'cub95')
-  //       let items = await fetch('https://api.cloudinary.com/v1_1/cub95/upload', {
-  //         method: 'POST',
-  //         body: data,
-  //       }).then(items => items.json())
-  //       let cloudinaryFile: string = items.secure_url
-  //       setPhoto(cloudinaryFile)
-  //       return cloudinaryFile
-  //     } else {
-  //       let cloudinaryFile = uploadedPhoto
-  //       return cloudinaryFile
-  //     }
-  //   } catch (err) {
-  //     setFailure(true)
-  //     console.log(err)
-  //   }
-  // }
 
   const createPost = async (firstName: string, lastName: string, email: string, userId: string) => {
     try {
@@ -204,16 +172,6 @@ function Profile() {
                               className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                             />
                           </div>
-
-                          {/* <div className="col-span-6 sm:col-span-4">
-                            <label className="block text-sm font-medium text-gray-700">
-                              Upload Profile Image<label className="text-blue-500">&nbsp;&nbsp;Optional*</label>
-                            </label>
-                            <div className="mt-1">
-                              <input type="file" name="photo" className="" ref={profileRef} />
-                            </div>
-                            {photo && <img className="h-40 w-40 my-4 p-2 bg-gray-300" src={photo} />}
-                          </div> */}
                         </div>
                       </div>
                       {success && (
@@ -302,3 +260,20 @@ function Profile() {
 }
 
 export default Profile
+
+export async function getServerSideProps(ctx: any) {
+  const session = await getSession(ctx)
+  let user = session && session.user
+  if (!session) {
+    ctx.res.writeHead(302, { Location: '/' })
+    ctx.res.end()
+    return {}
+  }
+
+  return {
+    props: {
+      user: user && user.name,
+    },
+  }
+}
+

@@ -12,26 +12,10 @@ interface PostDataInterface {
   rating: Number
   description: string
   photo: string
-  // _id: string
   source: string
-  // url: string
   createdAt: Date
   createdBy: string
 }
-
-// interface PostInterface {
-//   title: string
-//   ingredients: Array<String>
-//   instructions: Array<String>
-//   rating: Number
-//   description: string
-//   photo: string
-//   id: string
-//   source: string
-//   url: string
-//   createdAt: Date
-//   createdBy: string
-// }
 
 interface userInterface {
   id: string
@@ -86,7 +70,7 @@ const Recipe = (props: any) => {
     return (
       <Layout>
         <div className="bg-gray-100 min-h-screen">
-          <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 pb-20 lg:pb-10">
+          <div className="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 pb-20 lg:pb-10">
             <div className="flex items-center justify-between h-24">
               <div className="flex-shrink-0">
                 <h1 className="text-3xl font-bold text-black">Recipe:</h1>

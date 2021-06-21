@@ -96,7 +96,6 @@ function UserPosts() {
   const deletePost = async (e: any) => {
     try {
       e.preventDefault()
-      console.log(e)
 
       const body = {
         id: e.target.parentElement.id,
@@ -322,7 +321,7 @@ function UserPosts() {
   } else {
     return (
       <div className="bg-gray-100 h-screen">
-        <div className="max-w-7xl mx-auto px-2 sm:px-20 lg:px-8 pt-4 pb-20 lg:pt-8 lg:pb-20">
+        <div className="max-w-7xl mx-auto px-2 sm:px-10 lg:px-8 pt-4 pb-20 lg:pt-8 lg:pb-20">
           {indivPost && (
             <div className="grid gap-8 lg:gap-20 grid-cols-1 md:grid-cols-2 xl:grid-cols-2 place-items-center">
               {indivPost.map((indivPost: PostInterface, index: number) => {

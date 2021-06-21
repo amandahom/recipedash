@@ -1,4 +1,3 @@
-// models/index.js
 import User, { UserSchema } from './Users'
 
 export default {
