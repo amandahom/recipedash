@@ -53,6 +53,20 @@ export default function SignIn({ csrfToken }: any) {
                 </div>
               </div>
             </form>
+            <div>
+              <h1 className="mt-10 px-10 text-lg text-white lg:text-black py-4">
+                Here is a short video to view the project if you prefer to not sign in with your email address.
+                <div className="p-4">
+                  <a
+                    target="_blank"
+                    className="w-20 py-2 px-4 border border-transparent text-sm font-medium rounded-sm text-white bg-purple-500 hover:bg-purple-700"
+                    href="https://youtu.be/Kwk0Dre_0yw"
+                  >
+                    View Video
+                  </a>
+                </div>
+              </h1>
+            </div>
           </div>
         </div>
       </div>
