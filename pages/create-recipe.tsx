@@ -74,7 +74,7 @@ function CreatePost() {
         let items = await fetch('https://api.cloudinary.com/v1_1/cub95/upload', {
           method: 'POST',
           body: data,
-        }).then(items => items.json())
+        }).then((items) => items.json())
         let cloudinaryFile: string = items.secure_url
         setPhoto(cloudinaryFile)
         return cloudinaryFile
@@ -233,7 +233,7 @@ function CreatePost() {
                   <textarea
                     id="ingredients"
                     name="ingredients"
-                    placeholder="1. Boil water and cook the pasta."
+                    placeholder="- 2 cups of whole milk"
                     rows={6}
                     className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                     defaultValue={''}
@@ -252,7 +252,7 @@ function CreatePost() {
                     name="instructions"
                     rows={6}
                     className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                    placeholder="- 2 cups of whole milk"
+                    placeholder="1. Boil water and cook the pasta."
                     defaultValue={''}
                   />
                 </div>
