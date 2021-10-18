@@ -42,9 +42,9 @@ const options = {
   callbacks: {
     redirect: async (url, _) => {
       if (url === '/api/auth/signin') {
-        return Promise.resolve('http://localhost:3000/')
+        return Promise.resolve('https://recipedash.amandahom.com/')
       }
-      return Promise.resolve('http://localhost:3000/')
+      return Promise.resolve('https://recipedash.amandahom.com/')
     },
   },
   pages: {

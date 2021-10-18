@@ -170,7 +170,7 @@ function Navbar() {
                                             active ? 'bg-gray-100' : '',
                                             'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
                                           )}
-                                          onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}
+                                          onClick={() => signOut({ callbackUrl: 'https://recipedash.amandahom.com/' })}
                                         >
                                           Sign out
                                         </a>
@@ -232,7 +232,7 @@ function Navbar() {
                         ))}
                         <a
                           className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
-                          onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}
+                          onClick={() => signOut({ callbackUrl: 'https://recipedash.amandahom.com/' })}
                         >
                           Sign out
                         </a>
