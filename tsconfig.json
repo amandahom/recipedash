@@ -22,8 +22,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "alwaysStrict": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "types": [
+      "node"
+    ]
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/signin.tsx"]
+  "include": ["next-env.d.ts", "additional.d.ts","**/*.ts", "**/*.tsx", "pages/signin.tsx"]
 }

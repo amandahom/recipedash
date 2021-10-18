@@ -107,7 +107,7 @@ function UserPosts() {
         body: JSON.stringify(body),
       })
 
-      window.location.href = 'https://recipedash.amandahom.com/recipes'
+      window.location.href = 'http://localhost:3000/recipes'
     } catch (err) {
       console.log(err)
     }
@@ -246,7 +246,7 @@ function UserPosts() {
                       <div className="px-4 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button
                           type="button"
-                          onClick={e => {
+                          onClick={(e) => {
                             deletePost(e)
                           }}
                           id={indivPost.id}
@@ -280,7 +280,7 @@ function UserPosts() {
                           <button
                             type="button"
                             data-tag={indivPost.id}
-                            className="ml-5 h-10 w-28 sm:w-32 md:w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            className="ml-5 h-10 w-28 md:w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             // onClick={() => setOpen(false)}
                           >
                             <span className="mr-2">Edit</span>

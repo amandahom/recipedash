@@ -84,7 +84,7 @@ const Recipe = (props: any) => {
                     <div className="relative">
                       <img
                         src={props.photo}
-                        className="w-full relative z-10 w-full object-scale-down lg:object-cover lg:h-120 rounded-2xl"
+                        className="w-full relative z-10 object-scale-down lg:object-cover lg:h-120 rounded-2xl"
                       ></img>
                     </div>
                   </div>
@@ -187,9 +187,9 @@ const Recipe = (props: any) => {
 
 export default Recipe
 
-export const getServerSideProps: GetServerSideProps = async context => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   let recipeId = context.query.id
-  const res = await fetch(`https://recipedash.amandahom.com/api/posts/${recipeId}`, {
+  const res = await fetch(`http://localhost:3000/api/posts/${recipeId}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })

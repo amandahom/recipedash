@@ -14,7 +14,7 @@ export default function SignIn({ csrfToken }: any) {
         >
           <div className="absolute bg-black opacity-60 inset-0 z-0"></div>
           <div className="w-full px-24 z-10">
-            <h1 className="text-4xl font-bold text-left tracking-wide text-center">A home for recipes</h1>
+            <h1 className="text-4xl font-bold tracking-wide text-center">A home for recipes</h1>
             <p className="text-2xl my-4 text-center">Store your favorite recipes in a unique way.</p>
           </div>
         </div>
@@ -28,9 +28,7 @@ export default function SignIn({ csrfToken }: any) {
             <div className="absolute bg-black opacity-60 inset-0 z-0"></div>
           </div>
           <div className="w-full py-6 z-20">
-            <h1 className="text-4xl font-bold text-left tracking-wide text-white lg:text-black text-center">
-              RecipeDash
-            </h1>
+            <h1 className="text-4xl font-bold tracking-wide text-white lg:text-black text-center">RecipeDash</h1>
             <p className="text-xl text-white lg:text-black py-4">Sign-in with an email address.</p>
             <form method="post" action="/api/auth/signin/email">
               <div className="px-4">
@@ -40,7 +38,7 @@ export default function SignIn({ csrfToken }: any) {
                   id="email"
                   name="email"
                   placeholder="Email"
-                  className="text-black block appearance-none rounded-sm relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                  className="text-black appearance-none rounded-sm relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
                 />
                 <div className="pt-6">
                   <button

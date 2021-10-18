@@ -64,7 +64,7 @@ function Navbar() {
 
                       <button
                         onClick={() => signIn()}
-                        className="inline-block w-auto bg-purple-500 hover:bg-purple-700 rounded-md shadow-xl font-medium text-white px-4 py-3 rounded transition ease-in duration-150 focus:outline-none"
+                        className="inline-block w-auto bg-purple-500 hover:bg-purple-700  shadow-xl font-medium text-white px-4 py-3 rounded transition ease-in duration-150 focus:outline-none"
                       >
                         Sign in & View Demo
                       </button>
@@ -148,7 +148,7 @@ function Navbar() {
                                     static
                                     className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                                   >
-                                    {ProfileItems.map(item => (
+                                    {ProfileItems.map((item) => (
                                       <Menu.Item key={item.title}>
                                         {({ active }) => (
                                           <a
@@ -170,7 +170,7 @@ function Navbar() {
                                             active ? 'bg-gray-100' : '',
                                             'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
                                           )}
-                                          onClick={() => signOut({ callbackUrl: 'https://recipedash.amandahom.com/' })}
+                                          onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}
                                         >
                                           Sign out
                                         </a>
@@ -221,7 +221,7 @@ function Navbar() {
                     </div>
                     <div className="pt-4 pb-3 border-t border-gray-700">
                       <div className="px-2 space-y-1">
-                        {ProfileItems.map(item => (
+                        {ProfileItems.map((item) => (
                           <a
                             key={item.title}
                             href={item.url}
@@ -232,7 +232,7 @@ function Navbar() {
                         ))}
                         <a
                           className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
-                          onClick={() => signOut({ callbackUrl: 'https://recipedash.amandahom.com/' })}
+                          onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}
                         >
                           Sign out
                         </a>
