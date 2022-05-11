@@ -1,3 +1,4 @@
+import clientPromise from 'middleware/mongodb.js'
 import { getCsrfToken } from 'next-auth/client'
 import React from 'react'
 
@@ -74,7 +75,13 @@ export default function SignIn({ csrfToken }: any) {
 
 export async function getServerSideProps(context: any) {
   const csrfToken = await getCsrfToken(context)
+  const client = await clientPromise
+
+  const db = client.db('nextjs-mongodb-atlas-demo')
+
+  let users = await db.collection('users').find({}).toArray()
+  users = JSON.parse(JSON.stringify(users))
   return {
-    props: { csrfToken },
+    props: { csrfToken, users },
   }
 }
