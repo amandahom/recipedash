@@ -28,5 +28,5 @@
     ]
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "additional.d.ts","**/*.ts", "**/*.tsx", "pages/signin.tsx", "middleware/mongodb.ts"]
+  "include": ["next-env.d.ts", "additional.d.ts","**/*.ts", "**/*.tsx", "pages/sign-in.tsx", "middleware/mongodb.ts"]
 }

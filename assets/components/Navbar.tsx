@@ -1,10 +1,10 @@
+import { useClerk } from '@clerk/clerk-react'
 import { useAuth } from '@clerk/nextjs'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 // import { signIn, signOut, useSession } from 'next-auth/client'
 import { Fragment } from 'react'
-
 interface NavInterface {
   title: string
   url: string
@@ -43,6 +43,7 @@ function Navbar() {
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
   }
+  const { signOut } = useClerk()
   return (
     <>
       {!userId && (
@@ -65,10 +66,7 @@ function Navbar() {
                         </div>
                       </div>
                       <Link href="/sign-in">
-                        <button
-                          // onClick={() => signIn()}
-                          className="inline-block w-auto bg-purple-500 hover:bg-purple-700  shadow-xl font-medium text-white px-4 py-3 rounded transition ease-in duration-150 focus:outline-none"
-                        >
+                        <button className="inline-block w-auto bg-purple-500 hover:bg-purple-700  shadow-xl font-medium text-white px-4 py-3 rounded transition ease-in duration-150 focus:outline-none">
                           Sign in & View Demo
                         </button>
                       </Link>
@@ -169,7 +167,7 @@ function Navbar() {
                                     ))}
                                     <Menu.Item key="sign-out">
                                       {({ active }) => (
-                                        <Link href="/sign-out">
+                                        <button onClick={() => signOut()}>
                                           <a
                                             className={classNames(
                                               active ? 'bg-gray-100' : '',
@@ -179,7 +177,7 @@ function Navbar() {
                                           >
                                             Sign out
                                           </a>
-                                        </Link>
+                                        </button>
                                       )}
                                     </Menu.Item>
                                   </Menu.Items>
@@ -236,14 +234,14 @@ function Navbar() {
                             {item.title}
                           </a>
                         ))}
-                        <Link href="/sign-out">
+                        <button onClick={() => signOut()}>
                           <a
                             className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
                             // onClick={() => signOut({ callbackUrl: 'https://recipedash.amandahom.com/' })}
                           >
                             Sign out
                           </a>
-                        </Link>
+                        </button>
                       </div>
                     </div>
                   </Disclosure.Panel>

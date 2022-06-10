@@ -1,33 +1,29 @@
-import { ClerkProvider, RedirectToSignIn, SignedIn, SignedOut } from '@clerk/nextjs'
+import { ClerkProvider, SignedIn, SignedOut } from '@clerk/nextjs'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import React from 'react'
 import '../styles/globals.css'
+import SignInPage from './sign-in/[[...index]]'
+import SignUpPage from './sign-up/[[...index]]'
 
 const publicPages: string[] = ['/']
 
 export default function App({ Component, pageProps }: AppProps) {
-  // Get the pathname
+  const router = useRouter()
   const { pathname } = useRouter()
-
-  // Check if the current route matches a public page
   const isPublicPage = publicPages.includes(pathname)
 
-  // If the current route is listed as public, render it directly
-  // Otherwise, use Clerk to require authentication
   return (
-    <ClerkProvider>
+    <ClerkProvider {...pageProps}>
       {isPublicPage ? (
         <Component {...pageProps} />
       ) : (
-        <>
+        <main>
           <SignedIn>
             <Component {...pageProps} />
           </SignedIn>
-          <SignedOut>
-            <RedirectToSignIn />
-          </SignedOut>
-        </>
+          <SignedOut>{router.pathname.match('/sign-up') ? <SignUpPage /> : <SignInPage />}</SignedOut>
+        </main>
       )}
     </ClerkProvider>
   )
