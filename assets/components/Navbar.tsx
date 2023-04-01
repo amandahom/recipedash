@@ -1,8 +1,10 @@
+import { useClerk } from '@clerk/clerk-react'
+import { useAuth } from '@clerk/nextjs'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import Link from 'next/link'
+// import { signIn, signOut, useSession } from 'next-auth/client'
 import { Fragment } from 'react'
-
 interface NavInterface {
   title: string
   url: string
@@ -36,13 +38,15 @@ export const ProfileItems: ProfileInterface[] = [
 ]
 
 function Navbar() {
-  const [session] = useSession()
+  // const [session] = useSession()
+  const { isLoaded, userId, sessionId, getToken } = useAuth()
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
   }
+  const { signOut } = useClerk()
   return (
     <>
-      {!session && (
+      {!userId && (
         <>
           <div>
             <Disclosure as="nav" className="bg-gray-800">
@@ -61,13 +65,11 @@ function Navbar() {
                           </a>
                         </div>
                       </div>
-
-                      <button
-                        onClick={() => signIn()}
-                        className="inline-block w-auto bg-purple-500 hover:bg-purple-700  shadow-xl font-medium text-white px-4 py-3 rounded transition ease-in duration-150 focus:outline-none"
-                      >
-                        Sign in & View Demo
-                      </button>
+                      <Link href="/sign-in">
+                        <button className="inline-block w-auto bg-purple-500 hover:bg-purple-700  shadow-xl font-medium text-white px-4 py-3 rounded transition ease-in duration-150 focus:outline-none">
+                          Sign in & View Demo
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </>
@@ -76,7 +78,7 @@ function Navbar() {
           </div>
         </>
       )}
-      {session && session.user && (
+      {userId && (
         <>
           <div>
             <Disclosure as="nav" className="bg-gray-800">
@@ -165,15 +167,17 @@ function Navbar() {
                                     ))}
                                     <Menu.Item key="sign-out">
                                       {({ active }) => (
-                                        <a
-                                          className={classNames(
-                                            active ? 'bg-gray-100' : '',
-                                            'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
-                                          )}
-                                          onClick={() => signOut({ callbackUrl: 'https://recipedash.amandahom.com/' })}
-                                        >
-                                          Sign out
-                                        </a>
+                                        <button onClick={() => signOut()}>
+                                          <a
+                                            className={classNames(
+                                              active ? 'bg-gray-100' : '',
+                                              'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
+                                            )}
+                                            // onClick={() => signOut({ callbackUrl: 'https://recipedash.amandahom.com/' })}
+                                          >
+                                            Sign out
+                                          </a>
+                                        </button>
                                       )}
                                     </Menu.Item>
                                   </Menu.Items>
@@ -230,12 +234,14 @@ function Navbar() {
                             {item.title}
                           </a>
                         ))}
-                        <a
-                          className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
-                          onClick={() => signOut({ callbackUrl: 'https://recipedash.amandahom.com/' })}
-                        >
-                          Sign out
-                        </a>
+                        <button onClick={() => signOut()}>
+                          <a
+                            className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
+                            // onClick={() => signOut({ callbackUrl: 'https://recipedash.amandahom.com/' })}
+                          >
+                            Sign out
+                          </a>
+                        </button>
                       </div>
                     </div>
                   </Disclosure.Panel>
